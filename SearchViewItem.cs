@@ -35,11 +35,9 @@ public partial class SearchViewItem : ObservableObject, IDisposable
         get;
     } = false;
 
-    public PinyinItem? PinyinItem
-    {
-        set;
-        get;
-    }
+    [ObservableProperty]
+    public PinyinItem? pinyinItem;
+    
 
     public FileType FileType
     {
@@ -107,6 +105,11 @@ public partial class SearchViewItem : ObservableObject, IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
+    }
+
+    public void Notify()
+    {
+        OnPropertyChanged(nameof(PinyinItem));
     }
 }
 
