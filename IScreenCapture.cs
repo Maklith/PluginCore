@@ -15,7 +15,6 @@ public struct ScreenCaptureInfo()
 public struct ScreenCaptureResult
 {
     public Bitmap Source;
-    public Bitmap Mosaic;
     public ScreenCaptureInfo Info;
 }
 public interface IScreenCapture
