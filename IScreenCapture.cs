@@ -5,24 +5,27 @@ namespace PluginCore;
 
 public struct ScreenCaptureInfo()
 {
-    public int Index = 0;
+    public uint Index = 0;
     public int X = -1;
     public int Y = -1;
     public int Width = -1;
     public int Height = -1;
 }
 
-public struct ScreenCaptureResult
+public  struct ScreenCaptureResult
 {
     public Bitmap Source;
+    public byte[] Bytes;
     public ScreenCaptureInfo Info;
 }
 public interface IScreenCapture
 {
-    public Stack<ScreenCaptureResult> CaptureAllScreen();
+    public List<ScreenCaptureInfo> GetAllScreenInfo();
+    public ScreenCaptureInfo GetScreenCaptureInfoByIndex(int index);
+    public Stack<ScreenCaptureResult> CaptureAllScreenBitmap();
+    public Stack<ScreenCaptureResult> CaptureAllScreenBytes();
+    public ScreenCaptureResult CaptureScreenBitmap(ScreenCaptureInfo screenCaptureInfo);
+    public ScreenCaptureResult CaptureScreenBytes(ScreenCaptureInfo screenCaptureInfo);
 
-
-    public (Bitmap?, Bitmap?)? CaptureScreen(ScreenCaptureInfo screenCaptureInfo, bool withMosaic = false);
-
-    public ScreenCaptureInfo GetScreenCaptureInfoByUserManual();
+   
 }
