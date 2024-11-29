@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Avalonia.Media.Imaging;
 
 namespace PluginCore;
@@ -10,6 +12,9 @@ public struct ScreenCaptureInfo()
     public int Y = -1;
     public int Width = -1;
     public int Height = -1;
+    public IntPtr hMonitor;
+    public IntPtr hdcMonitor;
+    
 }
 
 public  struct ScreenCaptureResult
