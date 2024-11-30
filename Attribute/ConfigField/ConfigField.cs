@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 #endregion
@@ -21,7 +22,7 @@ public class ConfigField : System.Attribute
 {
     public ConfigField(string title, string description, int symbol = 0,
         ConfigFieldType fieldType = ConfigFieldType.字符串, object[]? options = null, int maxValue = 0, int minValue = 0,
-        int step = 0
+        int step = 0,string action = null
     )
     {
         Tittle = title;
@@ -32,6 +33,7 @@ public class ConfigField : System.Attribute
         MaxValue = maxValue;
         MinValue = minValue;
         Step = step;
+        ActionName = action;
     }
 
     public string Tittle { get; set; }
@@ -45,4 +47,5 @@ public class ConfigField : System.Attribute
     public int MaxValue { get; set; }
     public int MinValue { get; set; }
     public int Step { get; set; }
+    public string? ActionName { get; set; }
 }

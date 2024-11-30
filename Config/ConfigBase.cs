@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace PluginCore.Config;
 
@@ -21,7 +23,9 @@ public class ConfigBase
     }
     public string Name { get;set; }
     public static ConfigBase Instance;
-    
+    [JsonIgnore]
+    public Dictionary<string, object> invokes { get; init; } = new();
+
 
     public virtual void BeforeLoad()
     {
