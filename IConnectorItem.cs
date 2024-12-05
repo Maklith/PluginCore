@@ -9,13 +9,7 @@ public interface IConnectorItem
     bool SelfInputAble { get; set; }
     string TypeName { get; set; }
     string Title { get; set; }
-
-    /// <summary>
-    /// 输出的类型
-    /// </summary>
-    Type Type { get; set; }
-
-    Type RealType { get; set; }
+    
     List<string>? Interfaces { get; set; }
     bool isPluginInputConnector { get; set; }
     INodeInputConnector PluginInputConnector { get; set; }
