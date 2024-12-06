@@ -12,6 +12,7 @@ public interface IConnectorItem
     
     List<string>? Interfaces { get; set; }
     bool isPluginInputConnector { get; set; }
+    
     INodeInputConnector PluginInputConnector { get; set; }
 
     /// <inheritdoc cref="ConnectorItem._inputObject"/>

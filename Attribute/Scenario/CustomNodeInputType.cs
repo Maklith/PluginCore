@@ -2,7 +2,7 @@
 
 namespace PluginCore.Attribute.Scenario;
 
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
 public class CustomNodeInputType : System.Attribute
 {
     public Type Type { get; set; }

@@ -8,5 +8,5 @@ public interface INodeInputConnector
 {
     public StyleInclude Style { get; }
     public IDataTemplate IDataTemplate { get; }
-    public ObservableValue Value { get; }
+    public ObservableValue Value { get; set; }
 }
