@@ -22,7 +22,7 @@ public class ConfigField : System.Attribute
 {
     public ConfigField(string title, string description, int symbol = 0,
         ConfigFieldType fieldType = ConfigFieldType.字符串, object[]? options = null, int maxValue = 0, int minValue = 0,
-        int step = 0,string action = null
+        int step = 0, string action = null
     )
     {
         Tittle = title;

@@ -17,84 +17,39 @@ public partial class SearchViewItem : ObservableObject, IDisposable
     [ObservableProperty] public bool _isStared = false;
     private string? _startDirectory;
 
-    public string? ItemDisplayName
-    {
-        get;
-        set;
-    }
+    public string? ItemDisplayName { get; set; }
 
-    public bool? IsVisible
-    {
-        set;
-        get;
-    }
+    public bool? IsVisible { set; get; }
 
-    public bool IsPined
-    {
-        set;
-        get;
-    } = false;
+    public bool IsPined { set; get; } = false;
 
-    [ObservableProperty]
-    public PinyinItem? pinyinItem;
-    
+    [ObservableProperty] public PinyinItem? pinyinItem;
 
-    public FileType FileType
-    {
-        set;
-        get;
-    }
+
+    public FileType FileType { set; get; }
 
     public string? StartDirectory
     {
         set => _startDirectory = value;
         get
         {
-            if (_startDirectory== null)
-            {
-                return OnlyKey.Remove(OnlyKey.LastIndexOf('\\'));
-            }
+            if (_startDirectory == null) return OnlyKey.Remove(OnlyKey.LastIndexOf('\\'));
             return _startDirectory;
         }
-        
     }
 
-    public string? Arguments
-    {
-        set;
-        get;
-    }
+    public string? Arguments { set; get; }
 
-    public string OnlyKey
-    {
-        set;
-        get;
-    } = "";
+    public string OnlyKey { set; get; } = "";
 
-    public int IconSymbol
-    {
-        set;
-        get;
-    }
+    public int IconSymbol { set; get; }
 
 
-    public string? IconPath
-    {
-        set;
-        get;
-    }
+    public string? IconPath { set; get; }
 
-    public Action<SearchViewItem?>? Action
-    {
-        set;
-        get;
-    }
+    public Action<SearchViewItem?>? Action { set; get; }
 
-    public Func<SearchViewItem, Bitmap>? GetIconAction
-    {
-        set;
-        get;
-    }
+    public Func<SearchViewItem, Bitmap>? GetIconAction { set; get; }
 
 
     public void Dispose()

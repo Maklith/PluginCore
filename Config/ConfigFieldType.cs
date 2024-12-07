@@ -11,6 +11,5 @@ public enum ConfigFieldType
     快捷键,
     自定义选项,
     字符串列表,
-    字符串列表支持添加,
-    
+    字符串列表支持添加
 }

@@ -9,10 +9,10 @@ public interface IConnectorItem
     bool SelfInputAble { get; set; }
     string TypeName { get; set; }
     string Title { get; set; }
-    
+
     List<string>? Interfaces { get; set; }
     bool isPluginInputConnector { get; set; }
-    
+
     INodeInputConnector PluginInputConnector { get; set; }
 
     /// <inheritdoc cref="ConnectorItem._inputObject"/>

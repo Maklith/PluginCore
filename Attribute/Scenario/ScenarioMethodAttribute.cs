@@ -32,10 +32,7 @@ public class ScenarioMethodAttribute : System.Attribute
 
     public string GetParameterName(string key)
     {
-        if (ParameterName.TryGetValue(key, out var name))
-        {
-            return name;
-        }
+        if (ParameterName.TryGetValue(key, out var name)) return name;
 
         return key;
     }

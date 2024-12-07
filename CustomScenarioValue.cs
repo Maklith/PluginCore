@@ -16,9 +16,12 @@ public partial class CustomScenarioValue : ObservableObject
         Type = type;
         Value = o;
     }
+
     [JsonConverter(typeof(TypeJsonConverter))]
     public Type Type { get; set; }
+
     [JsonIgnore] private Type? _realType;
+
     [JsonConverter(typeof(TypeJsonConverter))]
     public Type RealType
     {
@@ -33,8 +36,5 @@ public partial class CustomScenarioValue : ObservableObject
     }
 
 
-    [ObservableProperty]
-    private object? value;
-
-
+    [ObservableProperty] private object? value;
 }

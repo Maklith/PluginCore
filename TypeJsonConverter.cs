@@ -25,17 +25,12 @@ public class TypeJsonConverter : JsonConverter<Type>
             var type = Type.GetType(strings[1], false, true);
             if (type != null) return type;
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type1 in assembly.GetTypes())
-                {
-                    if (type1.FullName == strings[1])
-                    {
-                        return type1;
-                    }
-                }
-            }
+            foreach (var type1 in assembly.GetTypes())
+                if (type1.FullName == strings[1])
+                    return type1;
 
-            throw new CustomScenarioLoadFromJsonException(CustomScenarioLoadFromJsonFailedType.类未找到,strings[0], strings[1]);
+            throw new CustomScenarioLoadFromJsonException(CustomScenarioLoadFromJsonFailedType.类未找到, strings[0],
+                strings[1]);
         }
 
         return ServiceManager.Services.GetService<IPluginManger>()!.GetType(strings);

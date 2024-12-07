@@ -12,28 +12,23 @@ public enum CustomScenarioLoadFromJsonFailedType
     类的序列化转换器未找到,
     类未找到
 }
+
 public class CustomScenarioLoadFromJsonException : Exception
 {
     private string? _pluginName;
     public CustomScenarioLoadFromJsonFailedType FailedType { get; set; }
 
-    public string PluginName
-    {
-        get;
-        set;
-    }
+    public string PluginName { get; set; }
 
-   
-    public string? MethodName
-    {
-        get;
-        set;
-    }
 
-    public CustomScenarioLoadFromJsonException(CustomScenarioLoadFromJsonFailedType customScenarioLoadFromJsonFailedType,string pluginName, string? methodName)
+    public string? MethodName { get; set; }
+
+    public CustomScenarioLoadFromJsonException(
+        CustomScenarioLoadFromJsonFailedType customScenarioLoadFromJsonFailedType, string pluginName,
+        string? methodName)
     {
-        this.PluginName = pluginName;
-        this.MethodName = methodName;
-        this.FailedType = customScenarioLoadFromJsonFailedType;
+        PluginName = pluginName;
+        MethodName = methodName;
+        FailedType = customScenarioLoadFromJsonFailedType;
     }
 }

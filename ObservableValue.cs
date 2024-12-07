@@ -14,7 +14,7 @@ public class ObservableValue : IObservable<CustomScenarioValue>
     private List<IObserver<CustomScenarioValue>> observers;
 
     public CustomScenarioValue Value { get; init; }
-    
+
     public IDisposable Subscribe(IObserver<CustomScenarioValue> observer)
     {
         if (!observers.Contains(observer))
@@ -29,8 +29,8 @@ public class ObservableValue : IObservable<CustomScenarioValue>
 
         public Unsubscriber(List<IObserver<CustomScenarioValue>> observers, IObserver<CustomScenarioValue> observer)
         {
-            this._observers = observers;
-            this._observer = observer;
+            _observers = observers;
+            _observer = observer;
         }
 
         public void Dispose()
@@ -44,15 +44,14 @@ public class ObservableValue : IObservable<CustomScenarioValue>
     public void SetValue(object? loc)
     {
         Value.Value = loc;
-        foreach (var observer in observers)
-        {
-            observer.OnNext(Value);
-        }
+        foreach (var observer in observers) observer.OnNext(Value);
     }
+
     public CustomScenarioValue GetValue()
     {
         return Value;
     }
+
     public void EndTransmission()
     {
         foreach (var observer in observers.ToArray())

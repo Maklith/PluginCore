@@ -12,5 +12,4 @@ public class Kitopia
     public static Dictionary<string, string> _i18n;
     public static Dictionary<Type, Func<object, string>> ToolTipConverters;
     public static Dictionary<Type, ICustomScenarioValueSerializer> JsonConverters;
-    
 }

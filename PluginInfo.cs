@@ -6,16 +6,19 @@ using Core.JsonConverter;
 using Bitmap = Avalonia.Media.Imaging.Bitmap;
 
 namespace PluginCore;
+
 public class PluginDependency
 {
     public string Item1 { get; set; }
     public string Item2 { get; set; }
+
     public void Deconstruct(out string plgStr, out string verStr)
     {
         plgStr = Item1;
         verStr = Item2;
     }
 }
+
 [ObservableObject]
 public partial class PluginInfo
 {
@@ -33,17 +36,16 @@ public partial class PluginInfo
     public int VersionId { set; get; }
 
     public string Description { set; get; }
-    
+
     public string Main { set; get; }
     public string FullPath { set; get; }
     public string Path { set; get; }
-    
+
     public Dictionary<string, string> Dependencies { set; get; }
-    
-    [JsonIgnore]
-    [property:JsonIgnore]
-    [ObservableProperty] private Bitmap? _icon;
-    
+
+    [JsonIgnore] [property: JsonIgnore] [ObservableProperty]
+    private Bitmap? _icon;
+
     [ObservableProperty] public bool isEnabled;
     [ObservableProperty] public bool unloadFailed;
 
@@ -51,7 +53,11 @@ public partial class PluginInfo
     [ObservableProperty] private string canUpdateVersion;
     [ObservableProperty] private int canUpdateVersionId;
     public int UpdateTargetVersion { set; get; }
-    public string ToPlgString() => $"{Id}_{AuthorId}_{NameSign}";
+
+    public string ToPlgString()
+    {
+        return $"{Id}_{AuthorId}_{NameSign}";
+    }
 
     public override string ToString()
     {

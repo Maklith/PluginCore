@@ -71,5 +71,5 @@ public struct HotKeyModel
     public static Array Keys => Enum.GetValues(typeof(EKey));
 
 
-    [JsonIgnore] public string SignName => $"{this.MainName}_{this.Name}";
+    [JsonIgnore] public string SignName => $"{MainName}_{Name}";
 }
