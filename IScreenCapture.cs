@@ -26,6 +26,7 @@ public struct ScreenCaptureResult
 public interface IScreenCapture
 {
     public List<ScreenCaptureInfo> GetAllScreenInfo();
+    
     public ScreenCaptureInfo GetScreenCaptureInfoByIndex(int index);
     public Stack<ScreenCaptureResult> CaptureAllScreenBitmap();
     public Stack<ScreenCaptureResult> CaptureAllScreenBytes();
