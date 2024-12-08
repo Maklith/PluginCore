@@ -8,9 +8,13 @@ public class ToolTipConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value == null) return null;
+        if (value == null) return parameter;
         if (value is CustomScenarioValue valueTuple)
         {
+            if (valueTuple.Value ==null)
+            {
+                return parameter;
+            }
             if (Kitopia.ToolTipConverters.ContainsKey(valueTuple.RealType))
                 return Kitopia.ToolTipConverters[valueTuple.RealType].Invoke(valueTuple.Value);
             else
