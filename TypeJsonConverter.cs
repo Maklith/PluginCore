@@ -31,7 +31,7 @@ public class TypeJsonConverter : JsonConverter<Type>
         return read;
        
     }
-    private Type ParseType(String[] typeNames,ref int index)
+    public Type ParseType(String[] typeNames,ref int index)
     {
         var typeName = typeNames[index];
         if (typeName.Contains("`"))
@@ -84,7 +84,7 @@ public class TypeJsonConverter : JsonConverter<Type>
         writer.WriteStringValue(GetTypeName(type));
     }
     //System List
-    private string GetTypeName(Type type)
+    public string GetTypeName(Type type)
     {
         var plugin = ServiceManager.Services.GetService<IPluginManger>()!.GetPluginInfo(type);
         var from = plugin is null ? "System" : plugin.ToPlgString();
