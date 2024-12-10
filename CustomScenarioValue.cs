@@ -29,6 +29,7 @@ public partial class CustomScenarioValue : ObservableObject
         set => _realType = value;
     }
 
+    [ObservableProperty] private bool _isSelf = false;
     partial void OnValueChanged(object? value)
     {
         // WeakReferenceMessenger.Default.Send(new CustomScenarioChangeMsg()
