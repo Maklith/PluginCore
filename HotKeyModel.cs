@@ -15,7 +15,7 @@ public enum HotKeyType
 /// </summary>
 public struct HotKeyModel
 {
-    public bool IsEnabled { get; set; } = true;
+    public bool IsEnabled { get; set; } = false;
     public HotKeyType Type { get; init; } = HotKeyType.Keyboard;
     public ushort? MouseButton { get; init; } = ushort.MaxValue;
     public ushort PressTimeMillis { get; init; } = 1000;
