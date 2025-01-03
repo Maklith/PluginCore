@@ -36,6 +36,7 @@ public struct WindowInfo()
     public string Title;
     public IntPtr Hwnd;
     public Rect Rect;
+    public int ZIndex;
 }
 public struct ScreenCaptureResult
 {
