@@ -38,6 +38,15 @@ public struct WindowInfo()
     public Rect Rect;
     public int ZIndex;
 }
+
+public struct Rect(int x, int y, int width, int height)
+{
+    
+    public int X = x;
+    public int Y = y;
+    public int Width = width;
+    public int Height = height;
+}
 public struct ScreenCaptureResult
 {
     public Bitmap Source;
