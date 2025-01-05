@@ -34,6 +34,7 @@ public struct ScreenInfo()
 public struct WindowInfo()
 {
     public string Title;
+    public string ModuleFileName;
     public IntPtr Hwnd;
     public Rect Rect;
     public int ZIndex;
