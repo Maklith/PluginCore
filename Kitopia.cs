@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Core.SDKs.CustomScenario;
+using PluginCore.Onnx;
 
 namespace PluginCore;
 
@@ -12,4 +13,5 @@ public class Kitopia
     public static Dictionary<string, string> _i18n;
     public static Dictionary<Type, Func<object, string>> ToolTipConverters;
     public static Dictionary<Type, ICustomScenarioValueSerializer> JsonConverters;
+    public static IInferenceSessionManager InferenceSessionManager;
 }
