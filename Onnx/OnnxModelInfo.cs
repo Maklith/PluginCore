@@ -1,11 +1,6 @@
 ﻿namespace PluginCore.Onnx;
 
-public enum TargetDevice
-{
-    CPU,
-    GPU,
-    NPU
-}
+
 public class OnnxModelInfo
 {
     public string Name { get; set; }
