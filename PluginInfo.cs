@@ -38,21 +38,21 @@ public partial class PluginInfo
     public string Description { set; get; }
 
     public string Main { set; get; }
-    public string FullPath { set; get; }
-    public string Path { set; get; }
+    [JsonIgnore]public string FullPath { set; get; }
+    [JsonIgnore]public string Path { set; get; }
 
     public Dictionary<string, string> Dependencies { set; get; }
 
     [JsonIgnore] [property: JsonIgnore] [ObservableProperty]
     private Bitmap? _icon;
 
-    [ObservableProperty] public bool isEnabled;
-    [ObservableProperty] public bool unloadFailed;
+    [JsonIgnore][ObservableProperty] public bool isEnabled;
+    [JsonIgnore][ObservableProperty] public bool unloadFailed;
 
-    [ObservableProperty] private bool canUpdata;
-    [ObservableProperty] private string canUpdateVersion;
-    [ObservableProperty] private int canUpdateVersionId;
-    public int UpdateTargetVersion { set; get; }
+    [property: JsonIgnore][JsonIgnore][ObservableProperty] private bool canUpdata;
+    [property: JsonIgnore][JsonIgnore][ObservableProperty] private string canUpdateVersion;
+    [property: JsonIgnore][JsonIgnore][ObservableProperty] private int canUpdateVersionId;
+    [JsonIgnore] public int UpdateTargetVersion { set; get; }
 
     public string ToPlgString()
     {
