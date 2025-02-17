@@ -87,7 +87,7 @@ public class TypeJsonConverter : JsonConverter<Type>
     public string GetTypeName(Type type)
     {
         var plugin = ServiceManager.Services.GetService<IPluginManger>()!.GetPluginInfo(type);
-        var from = plugin is null ? "System" : plugin.ToPlgString();
+        var from = plugin is null ? "System" : plugin.Value.ToString();
         var typeName = type.Name;
         if (type.IsGenericType)
         {
