@@ -47,7 +47,7 @@ public partial class SearchViewItem : ObservableObject, IDisposable
 
     public string? IconPath { set; get; }
 
-    public Action<SearchViewItem?>? Action { set; get; }
+    public Action<SearchViewItem?,string?>? Action { set; get; }
 
     public Func<SearchViewItem, Bitmap>? GetIconAction { set; get; }
 
