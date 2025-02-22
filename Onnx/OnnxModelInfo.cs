@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -8,12 +9,14 @@ namespace PluginCore.Onnx;
 
 public partial class OnnxModelInfo :ObservableObject, IDownloadButtonViewModel
 {
+    public CancellationTokenSource _cancellationTokenSource;
     private bool _needDownload;
     private bool _canDownload;
     private ICommand _downloadCommand;
     private bool _isIndeterminate;
     private bool _isDownloading;
     private double _progress;
+    private ICommand _cancelCommand;
     public string Name { get; set; }
     public string Description { get; set; }
     
@@ -46,6 +49,11 @@ public partial class OnnxModelInfo :ObservableObject, IDownloadButtonViewModel
     {
         get => _downloadCommand;
         set => SetProperty(ref _downloadCommand,value);
+    }
+
+    public ICommand CancelCommand {
+        get => _cancelCommand;
+        set => SetProperty(ref _cancelCommand,value);
     }
 
     public bool IsIndeterminate
