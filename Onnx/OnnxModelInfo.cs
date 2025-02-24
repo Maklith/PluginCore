@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace PluginCore.Onnx;
 
 
-public partial class OnnxModelInfo :ObservableObject, IDownloadButtonViewModel
+public partial class OnnxModelInfo :ObservableObject
 {
     public CancellationTokenSource _cancellationTokenSource;
     private bool _needDownload;
