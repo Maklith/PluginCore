@@ -4,6 +4,8 @@ using System.Text.Json.Serialization;
 using Core.SDKs.CustomScenario;
 using Core.SDKs.Services;
 using PluginCore.Onnx;
+using Serilog;
+using Serilog.Core;
 
 namespace PluginCore;
 
@@ -16,4 +18,5 @@ public class Kitopia
     public static Dictionary<Type, Func<object, string>> ToolTipConverters;
     public static Dictionary<Type, ICustomScenarioValueSerializer> JsonConverters;
     public static IInferenceSessionManager InferenceSessionManager;
+    public static Logger Logger;
 }
