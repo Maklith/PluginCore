@@ -9,8 +9,7 @@ public interface IScreenCaptureManager
     public List<ScreenCaptureInfo> GetAllScreenInfo();
     public List<WindowInfo> GetAllWindowInfo();
     public ScreenCaptureInfo GetScreenCaptureInfoByIndex(int index);
-    public Stack<ScreenCaptureResult> CaptureAllScreenBitmap();
     public Stack<ScreenCaptureResult> CaptureAllScreenBytes();
-    public ScreenCaptureResult CaptureScreenBitmap(ScreenCaptureResult captureAllScreenInfo);
+    
     public ScreenCaptureResult CaptureScreenBytes(ScreenCaptureInfo screenCaptureInfo);
 }

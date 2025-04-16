@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Media.Imaging;
+using OpenCvSharp;
 
 namespace PluginCore;
 
@@ -50,8 +51,7 @@ public struct Rect(int x, int y, int width, int height)
 }
 public struct ScreenCaptureResult
 {
-    public Bitmap Source;
-    public byte[] Bytes;
+    public Mat? Source; 
     public ScreenCaptureInfo Info;
 }
 
@@ -61,8 +61,6 @@ public interface IScreenCapture
     public List<WindowInfo> GetAllWindowInfo();
     
     public ScreenCaptureInfo GetScreenCaptureInfoByIndex(int index);
-    public Stack<ScreenCaptureResult> CaptureAllScreenBitmap();
-    public Stack<ScreenCaptureResult> CaptureAllScreenBytes();
-    public ScreenCaptureResult CaptureScreenBitmap(ScreenCaptureResult captureAllScreenInfo);
-    public ScreenCaptureResult CaptureScreenBytes(ScreenCaptureInfo screenCaptureInfo);
+    public Stack<ScreenCaptureResult> CaptureAllScreenMat();
+    public ScreenCaptureResult CaptureScreenMat(ScreenCaptureInfo screenCaptureInfo);
 }
