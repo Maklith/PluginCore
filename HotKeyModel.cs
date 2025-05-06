@@ -13,7 +13,7 @@ public enum HotKeyType
 /// <summary>
 ///     快捷键模型
 /// </summary>
-public struct HotKeyModel
+public record struct HotKeyModel
 {
     public bool IsEnabled { get; set; } = false;
     public HotKeyType Type { get; init; } = HotKeyType.Keyboard;

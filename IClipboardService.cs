@@ -1,13 +1,14 @@
 ﻿#region
 
 using System.Threading.Tasks;
-using PluginCore;
 using Bitmap = Avalonia.Media.Imaging.Bitmap;
 
 #endregion
 
-namespace Core.SDKs.Services;
-
+namespace PluginCore;
+/// <summary>
+/// 剪贴板服务
+/// </summary>
 public interface IClipboardService
 {
     bool HasText();
@@ -19,6 +20,3 @@ public interface IClipboardService
     Task<bool> SetImageAsync(ScreenCaptureResult screenCaptureResult);
 }
 
-public enum ClipboardType
-{
-}
