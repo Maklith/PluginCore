@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PluginCore;
 
-namespace KitopiaEx;
+namespace PluginCore;
 
 public class ObservableValue : IObservable<CustomScenarioValue>
 {

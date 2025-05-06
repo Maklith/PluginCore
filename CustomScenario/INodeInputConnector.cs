@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml.Styling;
-using KitopiaEx;
 
 namespace PluginCore;
 

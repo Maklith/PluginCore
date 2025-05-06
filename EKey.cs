@@ -1,4 +1,4 @@
-﻿namespace Core.SDKs.HotKey;
+﻿namespace PluginCore;
 
 /// <summary>
 ///     自定义按键枚举

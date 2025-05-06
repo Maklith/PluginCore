@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using Core.SDKs.HotKey;
 
 namespace PluginCore;
 
