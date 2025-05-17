@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Threading.Tasks;
+using OpenCvSharp;
 using Bitmap = Avalonia.Media.Imaging.Bitmap;
 
 #endregion
@@ -15,8 +16,8 @@ public interface IClipboardService
     string GetText();
     bool SetText(string text);
     bool HasImage();
-    Bitmap? GetImage();
-    bool SetImage(Bitmap image);
+    Mat? GetImage();
+    bool SetImage(Mat image);
     Task<bool> SetImageAsync(ScreenCaptureResult screenCaptureResult);
 }
 
