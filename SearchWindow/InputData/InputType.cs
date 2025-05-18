@@ -7,6 +7,7 @@ public enum InputType
     目录,
     文件,
     网址,
-    命令
+    命令,
+    数学表达式
     
 }
