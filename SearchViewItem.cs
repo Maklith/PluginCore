@@ -33,7 +33,10 @@ public partial class SearchViewItem : ObservableObject, IDisposable
         set => _startDirectory = value;
         get
         {
-            if (_startDirectory == null) return OnlyKey.Remove(OnlyKey.LastIndexOf('\\'));
+            if (_startDirectory == null)
+            {
+                return OnlyKey.LastIndexOf('\\') != -1 ? OnlyKey.Remove(OnlyKey.LastIndexOf('\\')) : OnlyKey;
+            }
             return _startDirectory;
         }
     }
