@@ -10,6 +10,10 @@ public static class MatToAWriteableBitmap
 {
     public static WriteableBitmap ToAWriteableBitmap(this Mat mat)
     {
+        if (!mat.IsContinuous())
+        {
+            mat= mat.Clone();
+        }
         var writeableBitmap = new WriteableBitmap(
             new PixelSize(mat.Width, mat.Height),
             new Vector(96, 96), PixelFormat.Bgra8888);
