@@ -8,6 +8,7 @@ public enum InputType
     文件,
     网址,
     命令,
+    情景,
     数学表达式
     
 }

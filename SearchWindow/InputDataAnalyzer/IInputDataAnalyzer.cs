@@ -15,5 +15,5 @@ public enum IInputDataAnalyzeTimeFlags
 public interface IInputDataAnalyzer
 {
     public IInputDataAnalyzeTimeFlags AnalyzeTimeFlags { get; }    
-    public IEnumerable<SearchViewItem> AnalyzeInputData(IEnumerable<InputData> inputDatas);
+    public IEnumerable<SearchViewItem> AnalyzeInputData(IEnumerable<InputData.InputData> inputDatas);
 }

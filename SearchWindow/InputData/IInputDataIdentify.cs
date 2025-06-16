@@ -5,5 +5,5 @@ namespace Core.ViewModel;
 
 public interface IInputDataIdentifier
 {
-    public IEnumerable<InputData> IdentifyInputData(IInputDataAnalyzeTimeFlags analyzeTimeFlags,string? s);
+    public IEnumerable<PluginCore.SearchWindow.InputData.InputData> IdentifyInputData(IInputDataAnalyzeTimeFlags analyzeTimeFlags,string? s);
 }

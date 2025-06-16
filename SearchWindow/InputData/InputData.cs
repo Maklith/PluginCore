@@ -1,13 +1,11 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Core.ViewModel;
 
-namespace Core.ViewModel;
+namespace PluginCore.SearchWindow.InputData;
 
 public partial class InputData : ObservableObject,IDisposable
 {
-    
-    
-
     [ObservableProperty]
     private InputType _inputType;
 
