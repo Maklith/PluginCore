@@ -17,7 +17,6 @@ public interface IClipboardService
     bool SetText(string text);
     bool HasImage();
     Mat? GetImage();
-    bool SetImage(Mat image);
     Task<bool> SetImageAsync(ScreenCaptureResult screenCaptureResult);
 }
 
