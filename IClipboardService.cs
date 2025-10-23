@@ -2,11 +2,11 @@
 
 using System.Threading.Tasks;
 using OpenCvSharp;
-using Bitmap = Avalonia.Media.Imaging.Bitmap;
 
 #endregion
 
 namespace PluginCore;
+
 /// <summary>
 /// 剪贴板服务
 /// </summary>
@@ -17,7 +17,5 @@ public interface IClipboardService
     bool SetText(string text);
     bool HasImage();
     Mat? GetImage();
-    bool SetImage(Mat image);
     Task<bool> SetImageAsync(ScreenCaptureResult screenCaptureResult);
 }
-
