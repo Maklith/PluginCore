@@ -15,7 +15,7 @@ public partial class SearchViewItem : ObservableObject, IDisposable
     [ObservableProperty] public bool _isStared = false;
     private string? _startDirectory;
 
-    [ObservableProperty] public PinyinItem? pinyinItem;
+    [ObservableProperty] public bool[]? pinyinItem;
 
     public string? ItemDisplayName { get; set; }
 
