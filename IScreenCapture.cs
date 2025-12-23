@@ -30,6 +30,7 @@ public struct ScreenInfo()
     public int Y = -1;
     public int Width = -1;
     public int Height = -1;
+    public float SdrWhiteLevelScale = 1.0f;
 }
 
 public struct WindowInfo()
