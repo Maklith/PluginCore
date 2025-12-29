@@ -11,6 +11,7 @@ namespace PluginCore;
 
 public class Kitopia
 {
+    public static IServiceProvider ServiceProvider;
     public static ISearchItemTool ISearchItemTool;
     public static IClipboardService IClipboardService;
     public static IToastService IToastService;
