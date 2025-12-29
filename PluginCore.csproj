@@ -15,18 +15,18 @@
 
 
     <ItemGroup>
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)"/>
-        <PackageReference Include="HotAvalonia" Version="3.0.0" PrivateAssets="All" Publish="True" />
-        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)"/>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2"/>
-        <PackageReference Include="Irihi.Ursa" Version="1.13.0"/>
-        <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.13.0"/>
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.10" />
+        <PackageReference Include="HotAvalonia" Version="3.0.2" PrivateAssets="All" Publish="True" />
+        <PackageReference Include="Avalonia" Version="11.3.10" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Irihi.Ursa" Version="1.14.0" />
+        <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.14.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2" />
         <PackageReference Include="OpenCvSharp4" Version="4.10.0.20241108" />
         <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.10.0.20241108" />
-        <PackageReference Include="Semi.Avalonia" Version="11.2.1.4" />
-        <PackageReference Include="Semi.Avalonia.ColorPicker" Version="11.2.1.4" />
-        <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.4" />
+        <PackageReference Include="Semi.Avalonia" Version="11.3.7.1" />
+        <PackageReference Include="Semi.Avalonia.ColorPicker" Version="11.3.7.1" />
+        <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.3.7.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
         <PackageReference Include="Serilog" Version="4.2.0" />
