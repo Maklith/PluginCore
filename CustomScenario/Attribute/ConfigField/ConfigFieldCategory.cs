@@ -1,6 +1,8 @@
-﻿namespace PluginCore.Attribute;
+﻿using System;
 
-[System.AttributeUsage(System.AttributeTargets.Field)]
+namespace PluginCore.Attribute;
+
+[AttributeUsage(AttributeTargets.Field| AttributeTargets.Method)]
 public class ConfigFieldCategory : System.Attribute
 {
     public string Category { get; set; }

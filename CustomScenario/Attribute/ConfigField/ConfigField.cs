@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace PluginCore.Attribute;
 
-[AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Field| AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
 public class ConfigField<TEnum> : ConfigField where TEnum : struct, Enum
 {
     public ConfigField(string title, string description, int symbol = 0) :
@@ -17,12 +17,12 @@ public class ConfigField<TEnum> : ConfigField where TEnum : struct, Enum
     }
 }
 
-[AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
+[AttributeUsage(AttributeTargets.Field| AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
 public class ConfigField : System.Attribute
 {
     public ConfigField(string title, string description, int symbol = 0,
         ConfigFieldType fieldType = ConfigFieldType.字符串, object[]? options = null, int maxValue = 0, int minValue = 0,
-        int step = 0, string action = null
+        int step = 0, string actionName = null
     )
     {
         Tittle = title;
@@ -33,7 +33,7 @@ public class ConfigField : System.Attribute
         MaxValue = maxValue;
         MinValue = minValue;
         Step = step;
-        ActionName = action;
+        ActionName = actionName;
     }
 
     public string Tittle { get; set; }

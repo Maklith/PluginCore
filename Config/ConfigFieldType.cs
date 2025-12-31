@@ -9,6 +9,7 @@ public enum ConfigFieldType
     浮点数,
     布尔,
     快捷键,
+    按钮,
     自定义选项,
     字符串列表,
     字符串列表支持添加
