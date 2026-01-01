@@ -35,7 +35,9 @@
 
 
     <ItemGroup>
-        <ProjectReference Include="..\PinyinM.NET\Pinyin.NET\Pinyin.NET.csproj"/>
+        <ProjectReference Include="..\PinyinM.NET\Pinyin.NET\Pinyin.NET.csproj">
+            <PrivateAssets>all</PrivateAssets>
+        </ProjectReference>
     </ItemGroup>
 
 </Project>
