@@ -23,7 +23,8 @@ public partial class SearchViewItem : ObservableObject, IDisposable
 
     [ObservableProperty] private bool _isPined = false;
 
-
+    //给插件使用，固定项目和历史项目不适用
+    public bool ShowAsMiniApp { set; get; } = false;
     public FileType FileType { set; get; }
 
     public string? StartDirectory
