@@ -12,7 +12,7 @@ namespace PluginCore;
 public partial class SearchViewItem : ObservableObject, IDisposable
 {
     [ObservableProperty] private Bitmap? _icon;
-    [ObservableProperty] public bool _isStared = false;
+    [ObservableProperty] private bool _isStared = false;
     private string? _startDirectory;
 
     [ObservableProperty] public bool[]? pinyinItem;
@@ -21,7 +21,7 @@ public partial class SearchViewItem : ObservableObject, IDisposable
 
     public bool? IsVisible { set; get; }
 
-    public bool IsPined { set; get; } = false;
+    [ObservableProperty] private bool _isPined = false;
 
 
     public FileType FileType { set; get; }
