@@ -8,12 +8,12 @@ public class ToolTipConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value == null) return parameter;
+        if (value == null) return null;
         if (value is CustomScenarioValue valueTuple)
         {
             if (valueTuple.Value ==null)
             {
-                return parameter;
+                return null;
             }
             if (Kitopia.ToolTipConverters.ContainsKey(valueTuple.RealType))
                 return Kitopia.ToolTipConverters[valueTuple.RealType].Invoke(valueTuple.Value);
@@ -23,7 +23,16 @@ public class ToolTipConverter : IValueConverter
 
         if (Kitopia.ToolTipConverters.ContainsKey(value.GetType()))
             return (string)(Kitopia.ToolTipConverters[value.GetType()].Invoke(value));
-        else return value.ToString();
+        
+        else
+        {
+            var convert = value.ToString();
+            if (string.IsNullOrEmpty(convert))
+            {
+                return null;
+            }
+            return convert;
+        }
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
