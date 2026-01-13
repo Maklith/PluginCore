@@ -4,7 +4,7 @@ public interface ISearchItemTool
 {
     void OpenFile(SearchViewItem? item, params object[] inputValues);
 
-    void OpenFile(string path);
+  
     void IgnoreItem(SearchViewItem? item);
 
     void OpenFolder(SearchViewItem? item);
