@@ -1,5 +1,8 @@
-﻿using System;
-using Avalonia.Controls;
+using System;
+using System.Collections.Generic;
+using Avalonia.Media.Imaging;
+using OpenCvSharp;
+using Window = Avalonia.Controls.Window;
 
 namespace PluginCore;
 
@@ -9,4 +12,6 @@ public interface IWindowTool
     void MoveWindowToMouseScreenCenter(Window window);
     void SetWindowTopMost(IntPtr hWnd, bool topMost);
     void SelectAndSetWindowTopMost();
+    IEnumerable<WindowInfo> GetAllWindows();
+    Bitmap? GetWindowIcon(IntPtr hWnd);
 }
