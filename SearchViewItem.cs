@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -89,6 +89,7 @@ public enum FileType
     自定义情景,
     便签,
     自定义,
+    窗口,
     文本,
     控制面板,
     None
