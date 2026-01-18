@@ -24,7 +24,9 @@ public enum StartupAction
     PluginRemove,
     PluginCheck,
     
-    DownloadPlugin
+    DownloadPlugin,
+    
+    FileLocksmith
 }
 
 public class StartupResult
