@@ -13,19 +13,24 @@ public partial class CustomScenarioValue : ObservableObject
 
     public CustomScenarioValue(Type type, object o)
     {
-        Type = type;
+        SerializeType = type;
         Value = o;
     }
-
+    /// <summary>
+    /// 实际存储的值的类型，用于序列化的类型
+    /// </summary>
     [JsonConverter(typeof(TypeJsonConverter))]
-    public Type Type { get; set; }
+    public Type SerializeType { get; set; }
 
     [JsonIgnore] private Type? _realType;
+    /// <summary>
+    /// 实际它对应的类型
+    /// </summary>
 
     [JsonConverter(typeof(TypeJsonConverter))]
-    public Type RealType
+    public Type ShowType
     {
-        get => _realType ?? Type;
+        get => _realType ?? SerializeType;
         set => _realType = value;
     }
 

@@ -15,8 +15,8 @@ public class ToolTipConverter : IValueConverter
             {
                 return null;
             }
-            if (Kitopia.ToolTipConverters.ContainsKey(valueTuple.RealType))
-                return Kitopia.ToolTipConverters[valueTuple.RealType].Invoke(valueTuple.Value);
+            if (Kitopia.ToolTipConverters.ContainsKey(valueTuple.ShowType))
+                return Kitopia.ToolTipConverters[valueTuple.ShowType].Invoke(valueTuple.Value);
             else
                 return valueTuple.Value?.ToString();
         }
