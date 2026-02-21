@@ -1,4 +1,4 @@
-﻿namespace PluginCore;
+﻿namespace PluginCore.CustomScenario;
 /// <summary>
 /// 情景节点类型->情景流节点
 /// </summary>

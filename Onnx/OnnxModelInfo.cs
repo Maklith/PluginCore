@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;

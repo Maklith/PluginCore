@@ -6,7 +6,7 @@ using System.Linq;
 
 #endregion
 
-namespace PluginCore.Attribute;
+namespace PluginCore.CustomScenario.Attribute.Scenario;
 
 /// <summary>
 /// 由该特性标记的方法会被Scenario索引为方法(Node)

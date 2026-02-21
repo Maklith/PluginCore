@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PluginCore.Attribute;
+namespace PluginCore.CustomScenario.Attribute;
 [AttributeUsage(AttributeTargets.Method)]
 public class CaptureAttribute : System.Attribute
 {

@@ -2,7 +2,6 @@
 
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Pinyin.NET;
 using Bitmap = Avalonia.Media.Imaging.Bitmap;
 
 #endregion

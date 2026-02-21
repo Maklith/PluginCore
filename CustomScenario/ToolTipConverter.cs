@@ -2,7 +2,7 @@
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace PluginCore;
+namespace PluginCore.CustomScenario;
 
 public class ToolTipConverter : IValueConverter
 {

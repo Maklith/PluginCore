@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 
-namespace PluginCore;
+namespace PluginCore.CustomScenario;
 
 public class CustomScenarioTrigger
 {

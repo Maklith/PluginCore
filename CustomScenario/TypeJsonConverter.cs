@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Core.SDKs.CustomScenario;
-using Core.SDKs.Services;
 using Microsoft.Extensions.DependencyInjection;
-using PluginCore;
 
-
-namespace Core.JsonConverter;
+namespace PluginCore.CustomScenario;
 
 public class TypeJsonConverter : JsonConverter<Type>
 {
@@ -57,7 +53,7 @@ public class TypeJsonConverter : JsonConverter<Type>
     }
     private Type GetType(string typeName)
     {
-        var strings = typeName!.Split(" ",2);
+        var strings = typeName.Split(" ",2);
         if (strings[0] == "System")
         {
             var type = Type.GetType(strings[1], false, true);

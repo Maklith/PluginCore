@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PluginCore.Attribute;
+namespace PluginCore.CustomScenario.Attribute;
 [AttributeUsage(AttributeTargets.Property)]
 public class OnnxModelInfoAttribute : System.Attribute
 {

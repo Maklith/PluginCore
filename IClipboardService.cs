@@ -13,7 +13,7 @@ namespace PluginCore;
 public interface IClipboardService
 {
     bool HasText();
-    string GetText();
+    string? GetText();
     bool SetText(string text);
     bool HasImage();
     Mat? GetImage();

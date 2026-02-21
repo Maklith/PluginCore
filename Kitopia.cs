@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using Core.SDKs.CustomScenario;
-using Core.SDKs.Services;
+using PluginCore.CustomScenario;
 using PluginCore.Onnx;
-using Serilog;
 using Serilog.Core;
 
 namespace PluginCore;

@@ -1,4 +1,4 @@
-﻿namespace PluginCore;
+﻿namespace PluginCore.Config;
 
 public enum ConfigFieldType
 {

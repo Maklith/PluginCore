@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Core.ViewModel;
 
 namespace PluginCore.SearchWindow.InputDataAnalyzer;
 [Flags]

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PluginCore.Attribute.Scenario;
+namespace PluginCore.CustomScenario.Attribute.Scenario;
 
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
 public class CustomNodeInputType : System.Attribute

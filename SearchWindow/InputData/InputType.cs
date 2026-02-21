@@ -1,4 +1,4 @@
-﻿namespace Core.ViewModel;
+﻿namespace PluginCore.SearchWindow.InputData;
 
 public enum InputType
 {

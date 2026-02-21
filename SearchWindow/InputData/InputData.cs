@@ -1,6 +1,5 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Core.ViewModel;
 
 namespace PluginCore.SearchWindow.InputData;
 

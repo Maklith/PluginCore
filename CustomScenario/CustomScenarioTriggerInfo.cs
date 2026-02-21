@@ -1,4 +1,4 @@
-﻿namespace PluginCore;
+﻿namespace PluginCore.CustomScenario;
 
 public struct CustomScenarioTriggerInfo
 {

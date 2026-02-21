@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PluginCore.Attribute;
+namespace PluginCore.CustomScenario.Attribute.ConfigField;
 
 [AttributeUsage(AttributeTargets.Field| AttributeTargets.Method)]
 public class ConfigFieldCategory : System.Attribute

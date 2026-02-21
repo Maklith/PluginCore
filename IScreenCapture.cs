@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Avalonia;
-using Avalonia.Media.Imaging;
 using OpenCvSharp;
 
 namespace PluginCore;

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using Core.JsonConverter;
 
 namespace PluginCore;
 

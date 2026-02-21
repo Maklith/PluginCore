@@ -1,12 +1,12 @@
 ﻿#region
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using PluginCore.Config;
 
 #endregion
 
-namespace PluginCore.Attribute;
+namespace PluginCore.CustomScenario.Attribute.ConfigField;
 
 [AttributeUsage(AttributeTargets.Field| AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
 public class ConfigField<TEnum> : ConfigField where TEnum : struct, Enum

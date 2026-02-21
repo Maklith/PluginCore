@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml.Styling;
 
-namespace PluginCore;
+namespace PluginCore.CustomScenario;
 
 public interface INodeInputConnector
 {

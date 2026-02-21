@@ -7,7 +7,7 @@
 
 using System.Collections.Generic;
 
-namespace Core.Services.Interfaces;
+namespace PluginCore;
 
 public class ContextMenuItem
 {

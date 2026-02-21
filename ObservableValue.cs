@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace PluginCore;
 
-public class ObservableValue : IObservable<CustomScenarioValue>
+public class ObservableValue : IObservable<CustomScenario.CustomScenarioValue>
 {
     public ObservableValue()
     {
-        observers = new List<IObserver<CustomScenarioValue>>();
+        observers = new List<IObserver<CustomScenario.CustomScenarioValue>>();
     }
 
-    private List<IObserver<CustomScenarioValue>> observers;
+    private List<IObserver<CustomScenario.CustomScenarioValue>> observers;
 
-    public CustomScenarioValue Value { get; init; }
+    public CustomScenario.CustomScenarioValue Value { get; init; }
 
-    public IDisposable Subscribe(IObserver<CustomScenarioValue> observer)
+    public IDisposable Subscribe(IObserver<CustomScenario.CustomScenarioValue> observer)
     {
         if (!observers.Contains(observer))
             observers.Add(observer);
@@ -23,10 +23,10 @@ public class ObservableValue : IObservable<CustomScenarioValue>
 
     private class Unsubscriber : IDisposable
     {
-        private List<IObserver<CustomScenarioValue>> _observers;
-        private IObserver<CustomScenarioValue> _observer;
+        private List<IObserver<CustomScenario.CustomScenarioValue>> _observers;
+        private IObserver<CustomScenario.CustomScenarioValue> _observer;
 
-        public Unsubscriber(List<IObserver<CustomScenarioValue>> observers, IObserver<CustomScenarioValue> observer)
+        public Unsubscriber(List<IObserver<CustomScenario.CustomScenarioValue>> observers, IObserver<CustomScenario.CustomScenarioValue> observer)
         {
             _observers = observers;
             _observer = observer;
@@ -46,7 +46,7 @@ public class ObservableValue : IObservable<CustomScenarioValue>
         foreach (var observer in observers) observer.OnNext(Value);
     }
 
-    public CustomScenarioValue GetValue()
+    public CustomScenario.CustomScenarioValue GetValue()
     {
         return Value;
     }

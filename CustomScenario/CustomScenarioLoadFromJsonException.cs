@@ -1,7 +1,6 @@
 ﻿using System;
-using PluginCore;
 
-namespace Core.SDKs.CustomScenario;
+namespace PluginCore.CustomScenario;
 
 public enum CustomScenarioLoadFromJsonFailedType
 {

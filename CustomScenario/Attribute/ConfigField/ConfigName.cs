@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PluginCore.Attribute;
+namespace PluginCore.CustomScenario.Attribute.ConfigField;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class ConfigName : System.Attribute

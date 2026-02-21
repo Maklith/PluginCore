@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PluginCore.Attribute.Scenario;
+namespace PluginCore.CustomScenario.Attribute.Scenario;
 
 /// <summary>
 /// 设置类在<see cref="Scenario"/>中的分类

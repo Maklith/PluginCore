@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using PluginCore;
 
-namespace Core.SDKs.Services;
+namespace PluginCore;
 
 public interface IScreenCaptureWindow
 {

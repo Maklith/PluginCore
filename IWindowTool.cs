@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Avalonia.Media.Imaging;
-using OpenCvSharp;
 using Window = Avalonia.Controls.Window;
 
 namespace PluginCore;

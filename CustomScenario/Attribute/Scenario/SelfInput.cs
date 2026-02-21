@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PluginCore.Attribute;
+namespace PluginCore.CustomScenario.Attribute.Scenario;
 
 /// <summary>
 /// 在方法是<see cref="ScenarioMethodAttribute"/> 的情况下参数使用该特性, 表明该参数可以由用户手动输入>
