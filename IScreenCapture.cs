@@ -12,7 +12,7 @@ public enum ScreenCaptureType
     屏幕,
     窗口
 }
-public struct ScreenCaptureInfo()
+public record struct ScreenCaptureInfo()
 {
     public ScreenCaptureType ScreenCaptureType = ScreenCaptureType.屏幕;
     public int X = -1;
