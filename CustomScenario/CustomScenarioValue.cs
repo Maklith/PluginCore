@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace PluginCore.CustomScenario;
 
@@ -34,12 +36,12 @@ public partial class CustomScenarioValue : ObservableObject
     }
 
     [ObservableProperty] private bool _isSelf = false;
-    partial void OnValueChanged(object? value)
-    {
-        // WeakReferenceMessenger.Default.Send(new CustomScenarioChangeMsg()
-        //     { ScenarioMethodNode = Source, ConnectorItem = this });
-    }
-
+    
 
     [ObservableProperty] private object? value;
+
+    // partial void OnValueChanged(object? value)
+    // {
+    //     OnPropertyChanged(nameof(Value));
+    // }
 }
