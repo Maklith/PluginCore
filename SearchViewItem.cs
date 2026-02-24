@@ -16,7 +16,7 @@ public partial class SearchViewItem : ObservableObject, IDisposable
 
     [ObservableProperty] public bool[]? pinyinItem;
 
-    public string? ItemDisplayName { get; set; }
+    public required string ItemDisplayName { get; set; }
 
     public bool? IsVisible { set; get; }
 
