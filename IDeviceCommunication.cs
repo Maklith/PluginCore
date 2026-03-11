@@ -5,6 +5,19 @@ using System.Threading.Tasks;
 
 namespace PluginCore;
 
+public class TransferInterruptionEventArgs : EventArgs
+{
+    public string RequestId { get; }
+    public string Reason { get; }
+    public bool IsSending { get; }
+
+    public TransferInterruptionEventArgs(string requestId, string reason, bool isSending)
+    {
+        RequestId = requestId;
+        Reason = reason;
+        IsSending = isSending;
+    }
+}
 /// <summary>
 /// 设备通信服务接口
 /// </summary>
@@ -63,4 +76,6 @@ public interface IDeviceCommunication
     /// 接收到文件传输请求时触发
     /// </summary>
     event EventHandler<FileTransferRequestEventArgs>? FileTransferRequested;
+    
+    event EventHandler<TransferInterruptionEventArgs>? TransferInterrupted;
 }
