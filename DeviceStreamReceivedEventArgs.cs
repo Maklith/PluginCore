@@ -8,13 +8,13 @@ public class DeviceStreamReceivedEventArgs : EventArgs
     public DeviceModel Sender { get; }
     public Stream Stream { get; }
     public string? MetaData { get; }
+    public string? SavedPath { get; set; }
 
-    public DeviceStreamReceivedEventArgs(DeviceModel sender, Stream stream, string? metaData = null)
+    public DeviceStreamReceivedEventArgs(DeviceModel sender, Stream stream, string? metaData = null, string? savedPath = null)
     {
         Sender = sender;
         Stream = stream;
         MetaData = metaData;
+        SavedPath = savedPath;
     }
 }
-
-

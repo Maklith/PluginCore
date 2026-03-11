@@ -47,7 +47,7 @@ public interface IDeviceCommunication
     /// <summary>
     /// 响应文件传输请求
     /// </summary>
-    Task RespondToFileRequestAsync(DeviceModel target, string requestId, bool accepted);
+    Task RespondToFileRequestAsync(DeviceModel target, string requestId, bool accepted, string? savePath = null);
 
     /// <summary>
     /// 接收到数据流时触发
