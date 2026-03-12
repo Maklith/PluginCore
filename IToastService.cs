@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls.Notifications;
+using Avalonia.Controls.Notifications;
 
 namespace PluginCore;
 
@@ -9,5 +9,9 @@ public interface IToastService
 {
     public void Init();
     public void Show(string header, string text, NotificationType notificationType = NotificationType.Information);
+    public void Show(ToastRequest request);
+    public IToastProgressHandle ShowProgress(string header, string text,
+        NotificationType notificationType = NotificationType.Information, double initialProgress = 0,
+        bool isIndeterminate = false);
     public void Unregister();
 }
