@@ -70,7 +70,7 @@ public interface IDeviceCommunication
     /// <summary>
     /// 接收到文本消息时触发
     /// </summary>
-    event EventHandler<string>? MessageReceived;
+    event EventHandler<DeviceMessageReceivedEventArgs>? MessageReceived;
 
     /// <summary>
     /// 接收到文件传输请求时触发

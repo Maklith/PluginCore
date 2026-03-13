@@ -1,16 +1,43 @@
-﻿using System;
+using System;
 using System.Net;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PluginCore;
 
-public class DeviceModel
+public partial class DeviceModel : ObservableObject
 {
-    public string Id { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public IPAddress Address { get; set; } = IPAddress.None;
-    public int Port { get; set; }
-    public DateTime LastSeen { get; set; }
-    
-    public override string ToString() => $"{Name} ({Address}:{Port})";
-}
+    [ObservableProperty]
+    private string _id = string.Empty;
 
+    [ObservableProperty]
+    private string _name = string.Empty;
+
+    [ObservableProperty]
+    private string _customName = string.Empty;
+
+    [ObservableProperty]
+    private IPAddress _address = IPAddress.None;
+
+    [ObservableProperty]
+    private int _port;
+
+    [ObservableProperty]
+    private DateTime _lastSeen;
+
+    public string ComputerName => string.IsNullOrWhiteSpace(Name) ? "\u672a\u77e5\u8bbe\u5907" : Name;
+
+    public string DisplayName => string.IsNullOrWhiteSpace(CustomName) ? ComputerName : $"{CustomName} ({ComputerName})";
+
+    partial void OnNameChanged(string value)
+    {
+        OnPropertyChanged(nameof(ComputerName));
+        OnPropertyChanged(nameof(DisplayName));
+    }
+
+    partial void OnCustomNameChanged(string value)
+    {
+        OnPropertyChanged(nameof(DisplayName));
+    }
+
+    public override string ToString() => $"{DisplayName} ({Address}:{Port})";
+}
