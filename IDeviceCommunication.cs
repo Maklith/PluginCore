@@ -53,6 +53,11 @@ public interface IDeviceCommunication
     Task SendMessageAsync(DeviceModel target, string message);
 
     /// <summary>
+    /// 请求发送文件（由服务处理文件选择）
+    /// </summary>
+    Task RequestFileTransferAsync(DeviceModel target);
+
+    /// <summary>
     /// 请求发送文件
     /// </summary>
     Task RequestFileTransferAsync(DeviceModel target, string filePath);
