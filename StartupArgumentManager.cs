@@ -34,7 +34,8 @@ public enum StartupAction
 public class StartupResult
 {
     public StartupAction Action { get; set; }
-    public string Value { get; set; }
+    public string Value { get; set; } = string.Empty;
+    public List<string> Values { get; set; } = new();
     public Dictionary<string, string> Extras { get; set; } = new();
 }
 
@@ -56,7 +57,7 @@ public static class StartupArgumentManager
         var result = new StartupResult();
         var actionArg = args.FirstOrDefault(e => e.StartsWith("-action:", StringComparison.OrdinalIgnoreCase));
         var valueArgIndex = Array.FindIndex(args, e => e.StartsWith("-value:", StringComparison.OrdinalIgnoreCase));
-        var valueArg = valueArgIndex >= 0 ? args[valueArgIndex] : null;
+        var parsedValues = ParseValues(args, valueArgIndex);
 
         if (!string.IsNullOrEmpty(actionArg))
         {
@@ -64,13 +65,8 @@ public static class StartupArgumentManager
             if (Enum.TryParse(actionStr, true, out StartupAction action))
             {
                 result.Action = action;
-                result.Value = valueArg?.Substring("-value:".Length).Trim('"') ?? string.Empty;
-
-                if (result.Action == StartupAction.LanFileShare)
-                {
-                    var filePaths = ParseLanShareFilePaths(args, valueArgIndex);
-                    result.Value = PackValues(filePaths);
-                }
+                result.Values = parsedValues;
+                result.Value = parsedValues.FirstOrDefault() ?? string.Empty;
             }
         }
         else
@@ -85,7 +81,7 @@ public static class StartupArgumentManager
         return result;
     }
 
-    private static IReadOnlyList<string> ParseLanShareFilePaths(IReadOnlyList<string> args, int valueArgIndex)
+    private static List<string> ParseValues(IReadOnlyList<string> args, int valueArgIndex)
     {
         if (valueArgIndex < 0 || valueArgIndex >= args.Count)
         {
@@ -111,16 +107,8 @@ public static class StartupArgumentManager
                 break;
             }
 
-            token = token.Trim().Trim('"');
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                continue;
-            }
-
-            if (string.Equals(token, "{all}", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(token, "%*", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(token, "{0}", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(token, "%1", StringComparison.OrdinalIgnoreCase))
+            token = NormalizeValueToken(token);
+            if (token is null)
             {
                 continue;
             }
@@ -131,6 +119,30 @@ public static class StartupArgumentManager
         return values
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
+    }
+
+    private static string? NormalizeValueToken(string token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return null;
+        }
+
+        var normalized = token.Trim().Trim('"');
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            return null;
+        }
+
+        if (string.Equals(normalized, "{all}", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(normalized, "%*", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(normalized, "{0}", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(normalized, "%1", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        return normalized;
     }
 
     private static StartupResult ParseUrl(string url)
@@ -156,11 +168,22 @@ public static class StartupArgumentManager
             else if (key.Equals("value", StringComparison.OrdinalIgnoreCase))
             {
                 result.Value = val;
+                result.Values = UnpackValues(val).ToList();
+            }
+            else if (key.Equals("values", StringComparison.OrdinalIgnoreCase))
+            {
+                result.Values = UnpackValues(val).ToList();
+                result.Value = result.Values.FirstOrDefault() ?? string.Empty;
             }
             
             result.Extras[key] = val;
         }
-        
+
+        if (result.Values.Count == 0 && !string.IsNullOrWhiteSpace(result.Value))
+        {
+            result.Values.Add(result.Value);
+        }
+
         // Legacy Inference
         if (result.Action == StartupAction.None)
         {
