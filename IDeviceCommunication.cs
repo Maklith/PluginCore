@@ -58,6 +58,31 @@ public interface IDeviceCommunication
     Task SendClipboardTextAsync(DeviceModel target, string text);
 
     /// <summary>
+    /// 请求与目标设备建立剪贴板实时同步（需对方同意）
+    /// </summary>
+    Task<bool> RequestClipboardSyncAsync(DeviceModel target);
+
+    /// <summary>
+    /// 启用与指定设备的双向剪贴板同步（内部会发起同意请求）
+    /// </summary>
+    Task<bool> EnableClipboardSyncAsync(DeviceModel target);
+
+    /// <summary>
+    /// 关闭当前剪贴板同步
+    /// </summary>
+    void DisableClipboardSync();
+
+    /// <summary>
+    /// 当前是否已启用剪贴板同步
+    /// </summary>
+    bool IsClipboardSyncEnabled { get; }
+
+    /// <summary>
+    /// 当前剪贴板同步目标设备
+    /// </summary>
+    DeviceModel? ClipboardSyncTargetDevice { get; }
+
+    /// <summary>
     /// 请求发送文件（由服务处理文件选择）
     /// </summary>
     Task RequestFileTransferAsync(DeviceModel target);
@@ -86,6 +111,16 @@ public interface IDeviceCommunication
     /// 接收到剪贴板文本时触发
     /// </summary>
     event EventHandler<DeviceClipboardReceivedEventArgs>? ClipboardTextReceived;
+
+    /// <summary>
+    /// 剪贴板同步已授权（本机请求被同意，或本机同意了对方请求）时触发
+    /// </summary>
+    event EventHandler<DeviceClipboardSyncAuthorizedEventArgs>? ClipboardSyncAuthorized;
+
+    /// <summary>
+    /// 剪贴板同步状态变化时触发
+    /// </summary>
+    event EventHandler<DeviceClipboardSyncStateChangedEventArgs>? ClipboardSyncStateChanged;
 
     /// <summary>
     /// 接收到文件传输请求时触发
