@@ -53,6 +53,11 @@ public interface IDeviceCommunication
     Task SendMessageAsync(DeviceModel target, string message);
 
     /// <summary>
+    /// 发送剪贴板文本（用于设备间实时同步）
+    /// </summary>
+    Task SendClipboardTextAsync(DeviceModel target, string text);
+
+    /// <summary>
     /// 请求发送文件（由服务处理文件选择）
     /// </summary>
     Task RequestFileTransferAsync(DeviceModel target);
@@ -76,6 +81,11 @@ public interface IDeviceCommunication
     /// 接收到文本消息时触发
     /// </summary>
     event EventHandler<DeviceMessageReceivedEventArgs>? MessageReceived;
+
+    /// <summary>
+    /// 接收到剪贴板文本时触发
+    /// </summary>
+    event EventHandler<DeviceClipboardReceivedEventArgs>? ClipboardTextReceived;
 
     /// <summary>
     /// 接收到文件传输请求时触发
