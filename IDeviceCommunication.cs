@@ -39,6 +39,11 @@ public interface IDeviceCommunication
     void StopDiscovery();
 
     /// <summary>
+    /// 设置聊天窗口是否处于当前活动状态，以及当前激活会话设备
+    /// </summary>
+    void SetChatWindowActive(bool isActive, DeviceModel? device);
+
+    /// <summary>
     /// 发送数据流到指定设备
     /// </summary>
     /// <param name="target">目标设备</param>
@@ -98,29 +103,7 @@ public interface IDeviceCommunication
     event EventHandler<DeviceStreamReceivedEventArgs>? StreamReceived;
 
     /// <summary>
-    /// 接收到文本消息时触发
+    /// 统一设备通信事件（消息、剪贴板、同步状态、文件请求、传输中断等）
     /// </summary>
-    event EventHandler<DeviceMessageReceivedEventArgs>? MessageReceived;
-
-    /// <summary>
-    /// 接收到剪贴板文本时触发
-    /// </summary>
-    event EventHandler<DeviceClipboardReceivedEventArgs>? ClipboardTextReceived;
-
-    /// <summary>
-    /// 剪贴板同步已授权（本机请求被同意，或本机同意了对方请求）时触发
-    /// </summary>
-    event EventHandler<DeviceClipboardSyncAuthorizedEventArgs>? ClipboardSyncAuthorized;
-
-    /// <summary>
-    /// 剪贴板同步状态变化时触发
-    /// </summary>
-    event EventHandler<DeviceClipboardSyncStateChangedEventArgs>? ClipboardSyncStateChanged;
-
-    /// <summary>
-    /// 接收到文件传输请求时触发
-    /// </summary>
-    event EventHandler<FileTransferRequestEventArgs>? FileTransferRequested;
-    
-    event EventHandler<TransferInterruptionEventArgs>? TransferInterrupted;
+    event EventHandler<DeviceCommunicationEventArgs>? CommunicationEvent;
 }
