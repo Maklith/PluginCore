@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -83,14 +83,9 @@ public interface IDeviceCommunication
     DeviceModel? ClipboardSyncTargetDevice { get; }
 
     /// <summary>
-    /// 请求发送文件（由服务处理文件选择）
+    /// 请求发送文件（可选传入 filePath，不传时由服务处理文件选择）
     /// </summary>
-    Task RequestFileTransferAsync(DeviceModel target);
-
-    /// <summary>
-    /// 请求发送文件
-    /// </summary>
-    Task RequestFileTransferAsync(DeviceModel target, string filePath);
+    Task RequestFileTransferAsync(DeviceModel target, string? filePath = null);
 
     /// <summary>
     /// 响应文件传输请求
