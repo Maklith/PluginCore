@@ -93,6 +93,16 @@ public interface IDeviceCommunication
     Task RequestFileTransferAsync(DeviceModel target, string? filePath = null);
 
     /// <summary>
+    /// 请求发送图片（可选传入 imagePath，不传时由服务处理图片选择）
+    /// </summary>
+    Task RequestImageTransferAsync(DeviceModel target, string? imagePath = null);
+
+    /// <summary>
+    /// 从系统剪贴板读取并发送文件/图片，返回成功发起发送的条目数量。
+    /// </summary>
+    Task<int> RequestClipboardTransferAsync(DeviceModel target);
+
+    /// <summary>
     /// 响应文件传输请求
     /// </summary>
     Task RespondToFileRequestAsync(DeviceModel target, string requestId, bool accepted, string? savePath = null);
