@@ -24,7 +24,7 @@ public partial class DeviceModel : ObservableObject
     [ObservableProperty]
     private DateTime _lastSeen;
 
-    public string ComputerName => string.IsNullOrWhiteSpace(Name) ? "\u672a\u77e5\u8bbe\u5907" : Name;
+    public string ComputerName => string.IsNullOrWhiteSpace(Name) ? "未知设备" : Name;
 
     public string DisplayName => string.IsNullOrWhiteSpace(CustomName) ? ComputerName : $"{CustomName} ({ComputerName})";
 
