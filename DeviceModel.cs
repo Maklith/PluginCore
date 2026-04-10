@@ -6,6 +6,8 @@ namespace PluginCore;
 
 public partial class DeviceModel : ObservableObject
 {
+    public DeviceModel() { }
+
     [ObservableProperty]
     private string _id = string.Empty;
 
@@ -40,4 +42,17 @@ public partial class DeviceModel : ObservableObject
     }
 
     public override string ToString() => $"{DisplayName} ({Address}:{Port})";
+
+    public bool Equals(DeviceModel? other) {
+        if (other is null) {
+            return false;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Id) && !string.IsNullOrWhiteSpace(other.Id)) {
+            return string.Equals(Id, other.Id, StringComparison.Ordinal);
+        }
+
+        return Port == other.Port &&
+               string.Equals(Address.ToString(), other.Address.ToString(), StringComparison.OrdinalIgnoreCase);
+    }
 }
