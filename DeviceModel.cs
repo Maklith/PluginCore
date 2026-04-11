@@ -21,8 +21,13 @@ public partial class DeviceModel : ObservableObject
     private IPAddress _address = IPAddress.None;
 
     [ObservableProperty]
-    private int _port;
+    private int _udpPort;
+    [ObservableProperty]
+    private int _quicPort;
 
+    [ObservableProperty] 
+    private bool _supportQuic;
+    
     [ObservableProperty]
     private DateTime _lastSeen;
 
@@ -41,7 +46,7 @@ public partial class DeviceModel : ObservableObject
         OnPropertyChanged(nameof(DisplayName));
     }
 
-    public override string ToString() => $"{DisplayName} ({Address}:{Port})";
+    public override string ToString() => $"{DisplayName} ({Address}:{(SupportQuic ? QuicPort : UdpPort)})";
 
     public bool Equals(DeviceModel? other) {
         if (other is null) {
@@ -52,7 +57,7 @@ public partial class DeviceModel : ObservableObject
             return string.Equals(Id, other.Id, StringComparison.Ordinal);
         }
 
-        return Port == other.Port &&
+        return SupportQuic == other.SupportQuic && UdpPort == other.UdpPort && QuicPort == other.QuicPort &&
                string.Equals(Address.ToString(), other.Address.ToString(), StringComparison.OrdinalIgnoreCase);
     }
 }
