@@ -1,5 +1,6 @@
-﻿#region
+#region
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OpenCvSharp;
 
@@ -15,6 +16,8 @@ public interface IClipboardService
     bool HasText();
     string? GetText();
     bool SetText(string text);
+    bool HasFiles();
+    IReadOnlyList<string> GetFiles();
     bool HasImage();
     Mat? GetImage();
     Task<bool> SetImageAsync(ScreenCaptureResult screenCaptureResult);
