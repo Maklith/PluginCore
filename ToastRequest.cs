@@ -26,6 +26,10 @@ public sealed class ToastRequest
     public double? ProgressValue { get; init; }
 
     public IReadOnlyList<ToastAction> Actions { get; init; } = Array.Empty<ToastAction>();
+
+    public Action? ClickCallback { get; init; }
+
+    public bool CloseOnClick { get; init; } = true;
 }
 
 public sealed class ToastAction
