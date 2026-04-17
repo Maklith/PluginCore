@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace PluginCore.CustomScenario;
 
