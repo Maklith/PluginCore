@@ -12,26 +12,14 @@ public enum ScreenCaptureType
 public record struct ScreenCaptureInfo()
 {
     public ScreenCaptureType ScreenCaptureType = ScreenCaptureType.屏幕;
-    public int X = -1;
-    public int Y = -1;
-    public int Width = -1;
-    public int Height = -1;
-    public ScreenInfo ScreenInfo;
-    public WindowInfo WindowInfo;
+    public Rect? RequestRect;//相对于图像
+    public Rect? ScreenInfo;//用于查询显示器指针
+    public IntPtr hMonitor;//显示器指针，窗口情况下用窗口查询，屏幕用screenInfo查询
+    public float SdrWhiteLevelScale = 1.0f;//HDR显示器的SDR白电平缩放，默认为1.0f，表示不缩放
+    public WindowInfo? WindowInfo;
 }
 
-public struct ScreenInfo()
-{
-    public IntPtr hMonitor;
-    public int X = -1;
-    public int Y = -1;
-    public int Width = -1;
-    public int Height = -1;
-    public float SdrWhiteLevelScale = 1.0f;
-}
-
-public struct WindowInfo()
-{
+public record struct WindowInfo {
     public string Title;
     public string ModuleFileName;
     public IntPtr Hwnd;
@@ -39,13 +27,13 @@ public struct WindowInfo()
     public int ZIndex;
 }
 
-public struct Rect(int x, int y, int width, int height)
+public record struct Rect(int X, int Y, int Width, int Height)
 {
     
-    public int X = x;
-    public int Y = y;
-    public int Width = width;
-    public int Height = height;
+    public int X = X;
+    public int Y = Y;
+    public int Width = Width;
+    public int Height = Height;
 }
 public struct ScreenCaptureResult
 {

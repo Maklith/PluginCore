@@ -7,5 +7,5 @@ public interface ICustomScenarioValueSerializer
 {
     public string Serialize<T>(T value);
 
-    public object Deserialize(string? value);
+    public object? Deserialize(string? value);
 }
