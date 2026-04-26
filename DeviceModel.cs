@@ -18,7 +18,10 @@ public partial class DeviceModel : ObservableObject
     private string _customName = string.Empty;
 
     [ObservableProperty]
-    private IPAddress _address = IPAddress.None;
+    private IPAddress _ipv4Address = IPAddress.None;
+
+    [ObservableProperty]
+    private IPAddress _ipv6Address = IPAddress.None;
 
     [ObservableProperty]
     private int _tcpPort;
@@ -30,6 +33,14 @@ public partial class DeviceModel : ObservableObject
     
     [ObservableProperty]
     private DateTime _lastSeen;
+
+    public bool HasIpv4 => Ipv4Address != IPAddress.None;
+
+    public bool HasIpv6 => Ipv6Address != IPAddress.None;
+
+    public IPAddress PreferredTransportAddress => Ipv6Address != IPAddress.None
+        ? Ipv6Address
+        : Ipv4Address;
 
     public string ComputerName => string.IsNullOrWhiteSpace(Name) ? "未知设备" : Name;
 
@@ -46,7 +57,20 @@ public partial class DeviceModel : ObservableObject
         OnPropertyChanged(nameof(DisplayName));
     }
 
-    public override string ToString() => $"{DisplayName} ({Address}:{(SupportQuic ? QuicPort : TcpPort)})";
+    partial void OnIpv4AddressChanged(IPAddress value)
+    {
+        OnPropertyChanged(nameof(HasIpv4));
+        OnPropertyChanged(nameof(PreferredTransportAddress));
+    }
+
+    partial void OnIpv6AddressChanged(IPAddress value)
+    {
+        OnPropertyChanged(nameof(HasIpv6));
+        OnPropertyChanged(nameof(PreferredTransportAddress));
+    }
+
+    public override string ToString() =>
+        $"{DisplayName} ({PreferredTransportAddress}:{(SupportQuic ? QuicPort : TcpPort)})";
 
     public bool Equals(DeviceModel? other) {
         if (other is null) {
@@ -58,6 +82,6 @@ public partial class DeviceModel : ObservableObject
         }
 
         return SupportQuic == other.SupportQuic && TcpPort == other.TcpPort && QuicPort == other.QuicPort &&
-               string.Equals(Address.ToString(), other.Address.ToString(), StringComparison.OrdinalIgnoreCase);
+               string.Equals(PreferredTransportAddress.ToString(), other.PreferredTransportAddress.ToString(), StringComparison.OrdinalIgnoreCase);
     }
 }
