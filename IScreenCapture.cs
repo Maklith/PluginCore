@@ -14,7 +14,7 @@ public record struct ScreenCaptureInfo()
     public ScreenCaptureType ScreenCaptureType = ScreenCaptureType.屏幕;
     public Rect? RequestRect;//相对于图像
     public Rect? ScreenInfo;//用于查询显示器指针
-    public IntPtr hMonitor;//显示器指针，窗口情况下用窗口查询，屏幕用screenInfo查询
+    public IntPtr HMonitor;//显示器指针，窗口情况下用窗口查询，屏幕用screenInfo查询
     public float SdrWhiteLevelScale = 1.0f;//HDR显示器的SDR白电平缩放，默认为1.0f，表示不缩放
     public WindowInfo? WindowInfo;
 }
