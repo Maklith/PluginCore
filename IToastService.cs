@@ -14,5 +14,8 @@ public interface IToastService
     public IToastProgressHandle ShowProgress(string header, string text,
         NotificationType notificationType, double initialProgress = 0,
         bool isIndeterminate = false);
+    public bool HasUnreadSuppressedNotifications();
+    public bool TryOpenLatestSuppressedNotification();
+    public void ClearUnreadSuppressedNotifications();
     public void Unregister();
 }
