@@ -16,6 +16,7 @@ public interface IToastService
         bool isIndeterminate = false);
     public bool HasUnreadSuppressedNotifications();
     public bool TryOpenLatestSuppressedNotification();
+    public bool ShowSuppressedNotificationCenter();
     public void ClearUnreadSuppressedNotifications();
     public void Unregister();
 }
