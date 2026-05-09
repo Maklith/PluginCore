@@ -13,4 +13,5 @@ public interface IWindowTool
     void SelectAndSetWindowTopMost();
     IEnumerable<WindowInfo> GetAllWindows();
     Bitmap? GetWindowIcon(IntPtr hWnd);
+    Window? GetForegroundWindow();
 }

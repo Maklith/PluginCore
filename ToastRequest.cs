@@ -29,6 +29,8 @@ public sealed class ToastRequest
 
     public Action? ClickCallback { get; init; }
 
+    public Action? CloseAction { get; init; }
+
     public bool CloseOnClick { get; init; } = true;
 }
 
@@ -38,7 +40,11 @@ public sealed class ToastAction
 
     public Action? Callback { get; init; }
 
+    public bool? IsClose { get; init; }
+
     public bool CloseOnClick { get; init; } = true;
+
+    public bool ShouldCloseOnClick => IsClose ?? CloseOnClick;
 
     public bool IsPrimary { get; init; }
 }
