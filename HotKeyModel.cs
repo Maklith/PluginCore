@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PluginCore;
 
@@ -12,12 +13,17 @@ public enum HotKeyType
 /// <summary>
 ///     快捷键模型
 /// </summary>
-public record struct HotKeyModel
+public partial class HotKeyModel : ObservableObject
 {
-    public bool IsEnabled { get; set; } = false;
-    public HotKeyType Type { get; init; } = HotKeyType.Keyboard;
-    public ushort? MouseButton { get; init; } = ushort.MaxValue;
-    public ushort PressTimeMillis { get; init; } = 1000;
+    [ObservableProperty] [JsonIgnore] 
+    private bool _isEnabled;
+
+    [ObservableProperty] [JsonIgnore] 
+    private HotKeyType _type =HotKeyType.Keyboard;
+    [ObservableProperty] [JsonIgnore] 
+    private ushort? _mouseButton = ushort.MaxValue;
+    [ObservableProperty] [JsonIgnore] 
+    private ushort _pressTimeMillis = 1000;
 
     public HotKeyModel()
     {
@@ -41,33 +47,30 @@ public record struct HotKeyModel
     /// <summary>
     ///     是否勾选Ctrl按键
     /// </summary>
-    public bool IsSelectCtrl { get; init; }
+    [JsonIgnore] [ObservableProperty] private bool _isSelectCtrl;
 
     /// <summary>
     ///     是否勾选Shift按键
     /// </summary>
-    public bool IsSelectShift { get; init; }
+    [JsonIgnore] [ObservableProperty] private bool _isSelectShift;
 
     /// <summary>
     ///     是否勾选Alt按键
     /// </summary>
-    public bool IsSelectAlt { get; init; }
+    [JsonIgnore] [ObservableProperty] private bool _isSelectAlt;
 
     /// <summary>
     ///     是否勾选Alt按键
     /// </summary>
-    public bool IsSelectWin { get; init; }
+    [JsonIgnore] [ObservableProperty] private bool _isSelectWin;
 
     /// <summary>
     ///     选中的按键
     /// </summary>
-    public EKey SelectKey { get; init; }
+    [JsonIgnore] [ObservableProperty] private EKey _selectKey;
 
 
-    /// <summary>
-    ///     快捷键按键集合
-    /// </summary>
-    public static Array Keys => Enum.GetValues(typeof(EKey));
+    
 
 
     [JsonIgnore] public string SignName => $"{MainName}_{Name}";
