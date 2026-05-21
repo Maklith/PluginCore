@@ -25,11 +25,6 @@ public partial class DeviceModel : ObservableObject
 
     [ObservableProperty]
     private int _tcpPort;
-    [ObservableProperty]
-    private int _quicPort;
-
-    [ObservableProperty] 
-    private bool _supportQuic;
     
     [ObservableProperty]
     private DateTime _lastSeen;
@@ -70,7 +65,7 @@ public partial class DeviceModel : ObservableObject
     }
 
     public override string ToString() =>
-        $"{DisplayName} ({PreferredTransportAddress}:{(SupportQuic ? QuicPort : TcpPort)})";
+        $"{DisplayName} ({PreferredTransportAddress}:{TcpPort})";
 
     public bool Equals(DeviceModel? other) {
         if (other is null) {
@@ -81,7 +76,7 @@ public partial class DeviceModel : ObservableObject
             return string.Equals(Id, other.Id, StringComparison.Ordinal);
         }
 
-        return SupportQuic == other.SupportQuic && TcpPort == other.TcpPort && QuicPort == other.QuicPort &&
+        return TcpPort == other.TcpPort &&
                string.Equals(PreferredTransportAddress.ToString(), other.PreferredTransportAddress.ToString(), StringComparison.OrdinalIgnoreCase);
     }
 }
