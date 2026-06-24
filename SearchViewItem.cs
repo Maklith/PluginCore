@@ -8,7 +8,7 @@ using Bitmap = Avalonia.Media.Imaging.Bitmap;
 
 namespace PluginCore;
 
-public partial class SearchViewItem : ObservableObject, IDisposable
+public partial class SearchViewItem : ObservableObject
 {
     [ObservableProperty] private Bitmap? _icon;
     [ObservableProperty] private bool _isStared = false;
@@ -53,16 +53,6 @@ public partial class SearchViewItem : ObservableObject, IDisposable
 
     public Func<SearchViewItem, Bitmap>? GetIconAction { set; get; }
 
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-    }
 
     public void Notify()
     {
