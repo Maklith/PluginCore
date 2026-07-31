@@ -42,6 +42,8 @@ public partial class SearchViewItem : ObservableObject
 
     public string? Arguments { set; get; }
 
+    public string? LaunchPath { set; get; }
+
     public string OnlyKey { set; get; } = "";
 
     public int IconSymbol { set; get; }
