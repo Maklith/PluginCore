@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading;
+using System.Collections.Generic;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -21,6 +22,8 @@ public partial class OnnxModelInfo :ObservableObject
     
     public string SignName { get; set; }
     public string ModelPath { get; set; }
+    public IReadOnlyList<string> RequiredFiles { get; set; } = [];
+    public bool IsBundled { get; set; }
 
     public OnnxModelInfo()
     {
@@ -29,7 +32,23 @@ public partial class OnnxModelInfo :ObservableObject
 
     public bool NeedDownload
     {
-        get { return !File.Exists(ModelPath); }
+        get
+        {
+            if (!File.Exists(ModelPath))
+            {
+                return true;
+            }
+
+            foreach (var requiredFile in RequiredFiles)
+            {
+                if (!File.Exists(requiredFile))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
     public void NotifyNeedDownload()
     {
