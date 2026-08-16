@@ -5,44 +5,31 @@ namespace PluginCore.Onnx;
 
 public class OnnxInputDataTool
 {
-    public static unsafe Memory<float> InputTensor(Mat dst,int size)
+    private static readonly int[] ChannelMap = [0, 0, 1, 1, 2, 2];
+
+    public static unsafe void InputTensor(Mat image, Memory<float> destination)
     {
-        Mat[] imgArray = dst.Split();
-        for (var i = 0; i < imgArray.Length; i++)
+        var planeLength = image.Rows * image.Cols;
+        var tensorLength = 3 * planeLength;
+        if (image.Type() != MatType.CV_32FC3 || destination.Length < tensorLength)
         {
-                
-            if (!(imgArray[i].IsContinuous()))
-            {
-                imgArray[i] = imgArray[i].Clone(); // 强制复制为连续内存[citation:2]
-            }
-            
+            throw new ArgumentException("OCR input must be a CV_32FC3 image with a sufficiently large tensor.", nameof(destination));
         }
-        Memory<float> targetMemory = new float[size];
-        const int i1 = sizeof(float)/sizeof(byte);
-        using var memoryHandle = targetMemory.Pin();
-        Buffer.MemoryCopy(
-            imgArray[0].DataPointer,
-            memoryHandle.Pointer,
-            targetMemory.Length * i1 ,
-            imgArray[0].Total() * i1
-        );
-        
-        Buffer.MemoryCopy(
-            imgArray[1].DataPointer,
-            (void*)((IntPtr)memoryHandle.Pointer + imgArray[0].Total() *i1),
-            targetMemory.Length * i1,
-            imgArray[1].Total() * i1
-        );
-        
-        Buffer.MemoryCopy(
-            imgArray[2].DataPointer,
-            (void*)((IntPtr)memoryHandle.Pointer + (imgArray[0].Total() + imgArray[1].Total()) * i1),
-            targetMemory.Length * i1,
-            imgArray[2].Total() *i1
-        );
-        imgArray[0].Dispose();
-        imgArray[1].Dispose();
-        imgArray[2].Dispose();
-        return targetMemory;
+
+        using var handle = destination[..tensorLength].Pin();
+        var planeBytes = planeLength * sizeof(float);
+        using var firstChannel = Mat.FromPixelData(image.Rows, image.Cols, MatType.CV_32FC1, (IntPtr)handle.Pointer);
+        using var secondChannel = Mat.FromPixelData(image.Rows, image.Cols, MatType.CV_32FC1,
+            IntPtr.Add((IntPtr)handle.Pointer, planeBytes));
+        using var thirdChannel = Mat.FromPixelData(image.Rows, image.Cols, MatType.CV_32FC1,
+            IntPtr.Add((IntPtr)handle.Pointer, 2 * planeBytes));
+        Cv2.MixChannels([image], [firstChannel, secondChannel, thirdChannel], ChannelMap);
+    }
+
+    public static Memory<float> InputTensor(Mat image, int size)
+    {
+        var tensor = new float[size];
+        InputTensor(image, tensor);
+        return tensor;
     }
 }
