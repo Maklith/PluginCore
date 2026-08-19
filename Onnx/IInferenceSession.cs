@@ -8,6 +8,12 @@ public interface IInferenceSession : IDisposable
 {
     public string Device { get; }
     public void InitSession(string modelPath);
+
+    public void InitSession(string modelPath, bool useCpuMemoryArena)
+    {
+        InitSession(modelPath);
+    }
+
     public void InitSession(byte[] modelData);
     
     public IReadOnlyList<string> InputNames { get; }
