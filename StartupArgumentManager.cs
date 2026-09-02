@@ -155,11 +155,11 @@ public static class StartupArgumentManager
         
         foreach (var part in parts)
         {
-            var kv = part.Split('=');
+            var kv = part.Split('=', 2);
             if (kv.Length != 2) continue;
             
             var key = kv[0].Trim();
-            var val = kv[1].Trim();
+            var val = Uri.UnescapeDataString(kv[1].Trim());
             
             if (key.Equals("action", StringComparison.OrdinalIgnoreCase))
             {
