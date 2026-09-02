@@ -25,6 +25,14 @@ public sealed class ToastRequest
     /// </summary>
     public double? ProgressValue { get; init; }
 
+    public IReadOnlyList<string> SelectionOptions { get; init; } = Array.Empty<string>();
+
+    public string? SelectedOption { get; init; }
+
+    public string? SelectionConfirmText { get; init; }
+
+    public Action<string>? SelectionConfirmed { get; init; }
+
     public IReadOnlyList<ToastAction> Actions { get; init; } = Array.Empty<ToastAction>();
 
     public Action? ClickCallback { get; init; }
