@@ -8,5 +8,5 @@ public static class ServiceManager
 {
     public static IServiceProvider Services { get; set; }
     
-    public static string Version = "0.3.4.0";
+    public static string Version = "0.3.5.0";
 }
