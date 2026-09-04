@@ -12,6 +12,8 @@ public sealed class ToastRequest
 
     public NotificationType NotificationType { get; init; } = NotificationType.Information;
 
+    public bool? ShowIcon { get; init; }
+
     public TimeSpan? AutoCloseDelay { get; init; } = TimeSpan.FromSeconds(3);
 
     public bool ShowCloseButton { get; init; } = true;

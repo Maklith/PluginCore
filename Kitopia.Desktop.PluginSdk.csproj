@@ -19,8 +19,8 @@
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.0.5" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-        <PackageReference Include="Irihi.Ursa" Version="2.1.0" />
-        <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="2.1.0" />
+        <PackageReference Include="Irihi.Ursa" Version="2.2.0" />
+        <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="2.2.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
         <PackageReference Include="OpenCvSharp5" Version="5.0.0.20260806" />
         <PackageReference Include="OpenCvSharp5.runtime.win" Version="5.0.0.20260806" />
