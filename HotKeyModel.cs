@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PluginCore;
@@ -8,6 +9,13 @@ public enum HotKeyType
 {
     Keyboard,
     Mouse
+}
+
+public enum HotKeyProcessScope
+{
+    All,
+    Include,
+    Exclude
 }
 
 /// <summary>
@@ -24,6 +32,47 @@ public partial class HotKeyModel : ObservableObject
     private ushort? _mouseButton = ushort.MaxValue;
     [ObservableProperty] [JsonIgnore] 
     private ushort _pressTimeMillis = 1000;
+
+    [ObservableProperty] [JsonIgnore]
+    [NotifyPropertyChangedFor(nameof(ProcessScopeDescription))]
+    private HotKeyProcessScope _processScope;
+
+    [ObservableProperty] [JsonIgnore]
+    [NotifyPropertyChangedFor(nameof(ProcessScopeDescription))]
+    private string[] _processNames = [];
+
+    [ObservableProperty] [JsonIgnore]
+    private bool _ignoreTextInput;
+
+    [JsonIgnore]
+    public string ProcessScopeDescription => ProcessScope switch
+    {
+        HotKeyProcessScope.Include => "仅在 " + string.Join("、", ProcessNames) + " 生效",
+        HotKeyProcessScope.Exclude => "排除 " + string.Join("、", ProcessNames),
+        _ => "所有进程"
+    };
+
+    public bool CanExecuteInProcess(string? processName)
+    {
+        if (ProcessScope == HotKeyProcessScope.All) return true;
+        if (string.IsNullOrWhiteSpace(processName)) return false;
+        var name = NormalizeProcessName(processName);
+        var matches = ProcessNames.Any(process =>
+            string.Equals(NormalizeProcessName(process), name, StringComparison.OrdinalIgnoreCase));
+        return ProcessScope switch
+        {
+            HotKeyProcessScope.Include => matches,
+            HotKeyProcessScope.Exclude => !matches,
+            _ => false
+        };
+    }
+
+    public static string NormalizeProcessName(string name)
+    {
+        name = name.Trim().Trim('"').Replace('\\', '/');
+        name = name[(name.LastIndexOf('/') + 1)..];
+        return name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) ? name[..^4] : name;
+    }
 
     public HotKeyModel()
     {
