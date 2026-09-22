@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.Json.Serialization;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -77,6 +77,31 @@ public partial class HotKeyModel : ObservableObject
     public HotKeyModel()
     {
         UUID = Guid.NewGuid().ToString();
+    }
+
+    public HotKeyModel(HotKeyModel source)
+    {
+        UUID = source.UUID;
+        MainName = source.MainName;
+        Name = source.Name;
+        ApplySettings(source);
+        ProcessNames = source.ProcessNames.ToArray();
+    }
+
+    public void ApplySettings(HotKeyModel source)
+    {
+        IsSelectCtrl = source.IsSelectCtrl;
+        IsSelectAlt = source.IsSelectAlt;
+        IsSelectShift = source.IsSelectShift;
+        IsSelectWin = source.IsSelectWin;
+        SelectKey = source.SelectKey;
+        Type = source.Type;
+        MouseButton = source.MouseButton;
+        PressTimeMillis = source.PressTimeMillis;
+        ProcessScope = source.ProcessScope;
+        ProcessNames = source.ProcessNames;
+        IgnoreTextInput = source.IgnoreTextInput;
+        IsEnabled = source.IsEnabled;
     }
 
     [Obsolete("此方法仅供Json反序列化使用")]

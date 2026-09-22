@@ -32,7 +32,8 @@ public class ConfigBase
     [JsonIgnore]
     public virtual int CurrentConfigVersion => 0;
 
-    public static ConfigBase Instance;
+    [Obsolete("仅兼容旧插件的加载回调；在回调中使用 this，其他位置通过 IConfigProvider.Get<T>() 获取配置。")]
+    public static ConfigBase? Instance;
     [JsonIgnore] public Dictionary<string, object> invokes { get; init; } = new();
 
     public virtual void MigrateConfig(JsonElement root)

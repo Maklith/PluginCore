@@ -5,8 +5,8 @@
         <AssemblyName>PluginCore</AssemblyName>
         <RootNamespace>PluginCore</RootNamespace>
         <Nullable>enable</Nullable>
-        <PlatformTarget>x64</PlatformTarget>
-        <Platform>x64</Platform>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Platform>AnyCPU</Platform>
         <AvaloniaVersion>11.3.2</AvaloniaVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
@@ -19,26 +19,13 @@
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.0.5" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-        <PackageReference Include="Irihi.Ursa" Version="2.2.0" />
-        <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="2.2.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
         <PackageReference Include="OpenCvSharp5" Version="5.0.0.20260806" />
-        <PackageReference Include="OpenCvSharp5.runtime.win" Version="5.0.0.20260806" />
-        <PackageReference Include="Semi.Avalonia" Version="12.0.3" />
-        <PackageReference Include="Semi.Avalonia.ColorPicker" Version="12.0.3" />
-        <PackageReference Include="Semi.Avalonia.DataGrid" Version="12.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
         <PackageReference Include="Serilog" Version="4.3.1" />
-        <PackageReference Include="System.Drawing.Common" Version="10.0.9" />
     </ItemGroup>
 
 
-    <ItemGroup>
-        <ProjectReference Include="..\PinyinM.NET\Pinyin.NET\Pinyin.NET.csproj">
-            <PrivateAssets>all</PrivateAssets>
-        </ProjectReference>
-    </ItemGroup>
+
 
 </Project>
  
