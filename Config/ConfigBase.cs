@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace PluginCore.Config;
@@ -26,8 +27,17 @@ public class ConfigBase
     }
 
     [JsonIgnore] public string Name { get; set; } = string.Empty;
+    public int ConfigVersion { get; set; }
+
+    [JsonIgnore]
+    public virtual int CurrentConfigVersion => 0;
+
     public static ConfigBase Instance;
     [JsonIgnore] public Dictionary<string, object> invokes { get; init; } = new();
+
+    public virtual void MigrateConfig(JsonElement root)
+    {
+    }
 
 
     public virtual void BeforeLoad()
