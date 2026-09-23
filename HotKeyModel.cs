@@ -27,18 +27,22 @@ public partial class HotKeyModel : ObservableObject
     private bool _isEnabled;
 
     [ObservableProperty] [JsonIgnore] 
+    [NotifyPropertyChangedFor(nameof(ScopeSummary))]
     private HotKeyType _type =HotKeyType.Keyboard;
     [ObservableProperty] [JsonIgnore] 
     private ushort? _mouseButton = ushort.MaxValue;
     [ObservableProperty] [JsonIgnore] 
+    [NotifyPropertyChangedFor(nameof(ScopeSummary))]
     private ushort _pressTimeMillis = 1000;
 
     [ObservableProperty] [JsonIgnore]
     [NotifyPropertyChangedFor(nameof(ProcessScopeDescription))]
+    [NotifyPropertyChangedFor(nameof(ScopeSummary))]
     private HotKeyProcessScope _processScope;
 
     [ObservableProperty] [JsonIgnore]
     [NotifyPropertyChangedFor(nameof(ProcessScopeDescription))]
+    [NotifyPropertyChangedFor(nameof(ScopeSummary))]
     private string[] _processNames = [];
 
     [ObservableProperty] [JsonIgnore]
@@ -51,6 +55,11 @@ public partial class HotKeyModel : ObservableObject
         HotKeyProcessScope.Exclude => "排除 " + string.Join("、", ProcessNames),
         _ => "所有进程"
     };
+
+    [JsonIgnore]
+    public string ScopeSummary => Type == HotKeyType.Mouse
+        ? $"{ProcessScopeDescription} · 长按 {PressTimeMillis}ms"
+        : ProcessScopeDescription;
 
     public bool CanExecuteInProcess(string? processName)
     {
