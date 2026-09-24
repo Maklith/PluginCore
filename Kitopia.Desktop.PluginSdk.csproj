@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\KitopiaVersion.props" Condition="Exists('..\KitopiaVersion.props')" />
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
@@ -9,6 +10,8 @@
         <Platform>AnyCPU</Platform>
         <AvaloniaVersion>11.3.2</AvaloniaVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <InformationalVersion Condition="'$(KitopiaVersion)' != ''">$(KitopiaVersion)</InformationalVersion>
+        <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
