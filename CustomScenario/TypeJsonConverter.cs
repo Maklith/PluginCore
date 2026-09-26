@@ -80,9 +80,10 @@ public class TypeJsonConverter : JsonConverter<Type>
         writer.WriteStringValue(GetTypeName(type));
     }
     //System List
-    public string GetTypeName(Type type)
+    public string GetTypeName(Type type, Func<Type, PluginBaseInfo?>? resolvePlugin = null)
     {
-        var plugin = ServiceManager.Services.GetService<IPluginManger>()!.GetPluginInfo(type);
+        var plugin = resolvePlugin?.Invoke(type) ??
+                     ServiceManager.Services.GetService<IPluginManger>()?.GetPluginInfo(type);
         var from = plugin is null ? "System" : plugin.Value.ToString();
         var typeName = type.Name;
         if (type.IsGenericType)
@@ -90,10 +91,10 @@ public class TypeJsonConverter : JsonConverter<Type>
             StringBuilder sb = new StringBuilder();
             for (var i = 0; i < type.GetGenericArguments().Length-1; i++)
             {
-                sb.Append(GetTypeName(type.GetGenericArguments()[i]));
+                sb.Append(GetTypeName(type.GetGenericArguments()[i], resolvePlugin));
                 sb.Append(",");
             }
-            sb.Append(GetTypeName(type.GetGenericArguments()[^1]));
+            sb.Append(GetTypeName(type.GetGenericArguments()[^1], resolvePlugin));
             return ($"{from} {type.Namespace}.{typeName}[{sb}]");
         }
 

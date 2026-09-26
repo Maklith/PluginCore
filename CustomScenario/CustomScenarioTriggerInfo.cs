@@ -7,4 +7,7 @@ public struct CustomScenarioTriggerInfo
     public string Name { get; set; }
 
     public string? Description { get; set; }
+
+    [System.Text.Json.Serialization.JsonIgnore]
+    public System.Type? TriggerType { get; set; }
 }
