@@ -30,7 +30,9 @@ public enum StartupAction
 
     LanFileShare,
 
-    Login
+    Login,
+
+    DownloadScenario
 }
 
 public class StartupResult
