@@ -35,6 +35,12 @@ public class ScenarioMethodAttribute : System.Attribute
     /// </summary>
     public string? Id { get; set; }
 
+    /// <summary>
+    /// Expands the optional object[] argument into the selected local scenario's input connectors.
+    /// The method signature must be (string item, object[] inputValues, CancellationToken token).
+    /// </summary>
+    public bool SupportsLocalItemInputs { get; set; }
+
     public Dictionary<string, string>? ParameterName { get; set; }
 
     public string GetParameterName(string? key)

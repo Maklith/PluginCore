@@ -20,8 +20,9 @@ public class TypeJsonConverter : JsonConverter<Type>
     {
         var name = reader.GetString();
         
-        name = name.Replace("[", ",").Replace("]","");
-        var strings = name.Split(",");
+        var strings = name.Contains('`')
+            ? name.Replace("[", ",").Replace("]", "").Split(',')
+            : new[] { name };
         int index = 0;
         var read = ParseType(strings,ref index);
         return read;
