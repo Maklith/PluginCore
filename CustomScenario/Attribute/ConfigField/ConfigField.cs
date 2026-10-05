@@ -48,4 +48,10 @@ public class ConfigField : System.Attribute
     public int MinValue { get; set; }
     public int Step { get; set; }
     public string? ActionName { get; set; }
+
+    /// <summary>The name of a public boolean field or property in the same configuration.</summary>
+    public string? VisibleWhen { get; set; }
+
+    /// <summary>The value required to show this setting. Defaults to true.</summary>
+    public bool VisibleWhenValue { get; set; } = true;
 }

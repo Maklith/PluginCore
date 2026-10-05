@@ -15,5 +15,7 @@ public enum ConfigFieldType
     字符串列表支持添加,
     目录列表,
     文件列表,
-    文件和目录列表
+    文件和目录列表,
+    /// <summary>A color picker backed by a string field containing an RGB hex color.</summary>
+    颜色
 }
