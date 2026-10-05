@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace PluginCore;
 
@@ -32,7 +34,9 @@ public enum StartupAction
 
     Login,
 
-    DownloadScenario
+    DownloadScenario,
+
+    ImageCompression
 }
 
 public class StartupResult
@@ -45,6 +49,9 @@ public class StartupResult
 
 public static class StartupArgumentManager
 {
+    // Plugins register on enable and remove their callbacks on disable.
+    public static ConcurrentDictionary<StartupAction, Func<IReadOnlyList<string>, Task>> Handlers { get; } = new();
+
     public static StartupResult Parse(string[]? args)
     {
         if (args == null || args.Length == 0)
