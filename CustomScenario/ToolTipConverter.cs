@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Globalization;
+using System.Collections.Generic;
 using Avalonia.Data.Converters;
+using PluginCore.Localization;
 
 namespace PluginCore.CustomScenario;
 
-public class ToolTipConverter : IValueConverter
+public class ToolTipConverter : IValueConverter, IMultiValueConverter
 {
+    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture) =>
+        Convert(values.Count > 0 ? values[0] : null, targetType, parameter, culture);
+
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var fallback = parameter?.ToString();
+        var fallback = parameter is null ? null : Lang.Get(parameter.ToString()!);
         if (value == null) return fallback;
         if (value is CustomScenarioValue valueTuple)
         {

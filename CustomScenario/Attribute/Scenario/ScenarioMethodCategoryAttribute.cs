@@ -10,6 +10,7 @@ public class ScenarioMethodCategoryAttribute : System.Attribute
 {
     public bool IsMixinOrTopCategory { get; set; }
     public string Name { get; set; }
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// name和isMixinOrTopCategory参数具体如下

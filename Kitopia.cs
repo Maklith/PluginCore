@@ -12,7 +12,9 @@ public class Kitopia
     public static ISearchItemTool ISearchItemTool;
     public static IClipboardService IClipboardService;
     public static IToastService IToastService;
+    [Obsolete("Use TypeNames with stable lang keys.")]
     public static Dictionary<string, string> _i18n;
+    public static Dictionary<string, string> TypeNames;
     public static Dictionary<Type, Func<object, string>> ToolTipConverters;
     public static Dictionary<Type, ICustomScenarioValueSerializer> JsonConverters;
     public static IInferenceSessionManager InferenceSessionManager;
