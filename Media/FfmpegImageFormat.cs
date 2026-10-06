@@ -2,7 +2,10 @@ namespace PluginCore.Media;
 
 public enum FfmpegImageFormat
 {
+    Original = -1,
     WebP,
     JPEG,
-    PNG
+    PNG,
+    BMP,
+    AVIF
 }

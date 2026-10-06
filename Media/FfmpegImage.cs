@@ -9,8 +9,9 @@ namespace PluginCore.Media;
 public sealed unsafe class FfmpegImage : IDisposable
 {
     private AVFrame* _frame;
-    private readonly FfmpegImageFormat _format;
+    private readonly bool _pngHasPartialAlpha;
 
+    public FfmpegImageFormat Format { get; }
     public int Width { get; }
     public int Height { get; }
     public int OriginalWidth { get; }
@@ -19,7 +20,7 @@ public sealed unsafe class FfmpegImage : IDisposable
     internal FfmpegImage(string path, FfmpegImageFormat format, int resizePercent, int maxDimension,
         CancellationToken cancellationToken)
     {
-        _format = format;
+        Format = format;
         AVFormatContext* input = ffmpeg.avformat_alloc_context();
         AVCodecContext* decoder = null;
         AVPacket* packet = ffmpeg.av_packet_alloc();
@@ -37,6 +38,16 @@ public sealed unsafe class FfmpegImage : IDisposable
             var streamIndex = ffmpeg.av_find_best_stream(input, AVMediaType.AVMEDIA_TYPE_VIDEO, -1, -1, null, 0);
             Ffmpeg.Check(streamIndex, "find image stream", cancellationToken);
             var stream = input->streams[streamIndex];
+            if (format == FfmpegImageFormat.Original)
+                Format = stream->codecpar->codec_id switch
+                {
+                    AVCodecID.AV_CODEC_ID_WEBP => FfmpegImageFormat.WebP,
+                    AVCodecID.AV_CODEC_ID_MJPEG or AVCodecID.AV_CODEC_ID_LJPEG => FfmpegImageFormat.JPEG,
+                    AVCodecID.AV_CODEC_ID_PNG or AVCodecID.AV_CODEC_ID_APNG => FfmpegImageFormat.PNG,
+                    AVCodecID.AV_CODEC_ID_BMP => FfmpegImageFormat.BMP,
+                    AVCodecID.AV_CODEC_ID_AV1 => FfmpegImageFormat.AVIF,
+                    _ => throw new NotSupportedException("The original image format has no supported encoder.")
+                };
             var codec = ffmpeg.avcodec_find_decoder(stream->codecpar->codec_id);
             if (codec == null) throw new NotSupportedException("No decoder is available for this image.");
             decoder = ffmpeg.avcodec_alloc_context3(codec);
@@ -88,7 +99,36 @@ public sealed unsafe class FfmpegImage : IDisposable
             if (maxDimension > 0) scale = Math.Min(scale, (double)maxDimension / Math.Max(OriginalWidth, OriginalHeight));
             Width = Math.Max(1, (int)(OriginalWidth * scale));
             Height = Math.Max(1, (int)(OriginalHeight * scale));
-            _frame = Transform(first, rotation, Width, Height, format, cancellationToken);
+            var scaleFilter = $"{rotation}scale={Width}:{Height}:flags=lanczos";
+            var pixelFormat = Format switch
+            {
+                FfmpegImageFormat.WebP or FfmpegImageFormat.BMP => "bgra",
+                FfmpegImageFormat.AVIF => "yuv444p",
+                _ => "rgba"
+            };
+            var filter = Format == FfmpegImageFormat.JPEG
+                ? $"[in]{scaleFilter},format=rgba,split[fg][bg];[bg]lutrgb=r=255:g=255:b=255:a=255[white];[white][fg]overlay=shortest=1,format=yuvj444p[out]"
+                : $"[in]{scaleFilter},format={pixelFormat}[out]";
+            _frame = Transform(first, filter, cancellationToken);
+            if (Format == FfmpegImageFormat.PNG)
+            {
+                for (var y = 0; y < Height && !_pngHasPartialAlpha; y++)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    var row = _frame->data[0] + y * _frame->linesize[0];
+                    for (var x = 0; x < Width; x++)
+                        if (row[x * 4 + 3] is > 0 and < 255)
+                        {
+                            _pngHasPartialAlpha = true;
+                            break;
+                        }
+                }
+            }
+        }
+        catch
+        {
+            Dispose();
+            throw;
         }
         finally
         {
@@ -126,8 +166,7 @@ public sealed unsafe class FfmpegImage : IDisposable
         };
     }
 
-    private static AVFrame* Transform(AVFrame* input, string rotation, int width, int height,
-        FfmpegImageFormat format, CancellationToken cancellationToken)
+    private static AVFrame* Transform(AVFrame* input, string filter, CancellationToken cancellationToken)
     {
         var graph = ffmpeg.avfilter_graph_alloc();
         var inputs = ffmpeg.avfilter_inout_alloc();
@@ -148,10 +187,6 @@ public sealed unsafe class FfmpegImage : IDisposable
             outputs->filter_ctx = source;
             inputs->name = ffmpeg.av_strdup("out");
             inputs->filter_ctx = sink;
-            var scale = $"{rotation}scale={width}:{height}:flags=lanczos";
-            var filter = format == FfmpegImageFormat.JPEG
-                ? $"[in]{scale},format=rgba,split[fg][bg];[bg]lutrgb=r=255:g=255:b=255:a=255[white];[white][fg]overlay=shortest=1,format=yuvj444p[out]"
-                : $"[in]{scale},format={(format == FfmpegImageFormat.WebP ? "bgra" : "rgba")}[out]";
             Ffmpeg.Check(ffmpeg.avfilter_graph_parse_ptr(graph, filter, &inputs, &outputs, null), "parse image filters");
             Ffmpeg.Check(ffmpeg.avfilter_graph_config(graph, null), "configure image filters", cancellationToken);
             input->pts = 0;
@@ -176,51 +211,119 @@ public sealed unsafe class FfmpegImage : IDisposable
     }
 
     public void Encode(string outputPath, int quality, CancellationToken cancellationToken = default)
+        => Encode(outputPath, quality, lossless: Format == FfmpegImageFormat.PNG, cancellationToken);
+
+    /// <summary>Chooses lossless or lossy encoding for PNG and WebP; other formats use their supported encoder.</summary>
+    public void Encode(string outputPath, int quality, bool lossless, CancellationToken cancellationToken = default)
     {
         ObjectDisposedException.ThrowIf(_frame == null, this);
         ArgumentException.ThrowIfNullOrWhiteSpace(outputPath);
         if (quality is < 1 or > 100) throw new ArgumentOutOfRangeException(nameof(quality));
         cancellationToken.ThrowIfCancellationRequested();
-        var codec = ffmpeg.avcodec_find_encoder_by_name(_format switch
-            { FfmpegImageFormat.WebP => "libwebp", FfmpegImageFormat.JPEG => "mjpeg", _ => "png" });
+        var codec = ffmpeg.avcodec_find_encoder_by_name(Format switch
+        {
+            FfmpegImageFormat.WebP => "libwebp",
+            FfmpegImageFormat.JPEG => "mjpeg",
+            FfmpegImageFormat.PNG => "png",
+            FfmpegImageFormat.BMP => "bmp",
+            FfmpegImageFormat.AVIF => "libaom-av1",
+            _ => throw new NotSupportedException("The requested image format has no supported encoder.")
+        });
         if (codec == null) throw new NotSupportedException("The requested image encoder is unavailable.");
         var encoder = ffmpeg.avcodec_alloc_context3(codec);
         var packet = ffmpeg.av_packet_alloc();
+        AVFrame* quantized = null;
+        AVFormatContext* container = null;
         try
         {
             if (encoder == null || packet == null) throw new OutOfMemoryException();
+            var frame = _frame;
+            if (Format == FfmpegImageFormat.PNG && !lossless)
+            {
+                var colors = 3 + (int)Math.Round((quality - 1) * 253 / 99.0);
+                // Indexed PNG supports binary transparency. Retain the original alpha plane for semitransparent images.
+                var filter = _pngHasPartialAlpha
+                    ? $"[in]split=3[color][histogram][alpha];[histogram]palettegen=max_colors={colors}:reserve_transparent=0:stats_mode=single[palette];" +
+                      "[color][palette]paletteuse=dither=sierra2_4a:alpha_threshold=0[quantized];[alpha]alphaextract[mask];[quantized][mask]alphamerge,format=rgba[out]"
+                    : $"[in]split[color][histogram];[histogram]palettegen=max_colors={colors}:stats_mode=single[palette];" +
+                      "[color][palette]paletteuse=dither=sierra2_4a[out]";
+                quantized = Transform(_frame, filter, cancellationToken);
+                frame = quantized;
+            }
             encoder->width = Width;
             encoder->height = Height;
-            encoder->pix_fmt = (AVPixelFormat)_frame->format;
+            encoder->pix_fmt = (AVPixelFormat)frame->format;
             encoder->time_base = new AVRational { num = 1, den = 25 };
-            encoder->color_range = _frame->color_range;
-            encoder->compression_level = _format == FfmpegImageFormat.PNG ? 9 : 6;
-            if (_format == FfmpegImageFormat.JPEG)
+            encoder->color_range = frame->color_range;
+            encoder->compression_level = Format == FfmpegImageFormat.PNG ? 9 : 6;
+            if (Format == FfmpegImageFormat.JPEG)
             {
                 encoder->flags |= ffmpeg.AV_CODEC_FLAG_QSCALE;
                 encoder->global_quality = (2 + (int)Math.Round((100 - quality) * 29 / 99.0)) * ffmpeg.FF_QP2LAMBDA;
             }
-            else encoder->global_quality = quality * ffmpeg.FF_QP2LAMBDA;
+            else encoder->global_quality = (Format == FfmpegImageFormat.WebP && lossless ? 100 : quality) * ffmpeg.FF_QP2LAMBDA;
+            if (Format == FfmpegImageFormat.WebP)
+                Ffmpeg.Check(ffmpeg.av_opt_set_int(encoder->priv_data, "lossless", lossless ? 1 : 0, 0), "set WebP compression type");
+            if (Format == FfmpegImageFormat.AVIF)
+            {
+                Ffmpeg.Check(ffmpeg.avformat_alloc_output_context2(&container, null, "avif", outputPath), "create AVIF container");
+                encoder->flags |= ffmpeg.AV_CODEC_FLAG_GLOBAL_HEADER;
+                encoder->color_primaries = _frame->color_primaries;
+                encoder->color_trc = _frame->color_trc;
+                encoder->colorspace = _frame->colorspace;
+                encoder->thread_count = Math.Min(Environment.ProcessorCount, 8);
+                Ffmpeg.Check(ffmpeg.av_opt_set_int(encoder->priv_data, "crf", (int)Math.Round((100 - quality) * 63 / 99.0), 0), "set AVIF quality");
+                Ffmpeg.Check(ffmpeg.av_opt_set_int(encoder->priv_data, "cpu-used", 6, 0), "set AVIF encoding speed");
+                Ffmpeg.Check(ffmpeg.av_opt_set_int(encoder->priv_data, "still-picture", 1, 0), "set AVIF still image");
+            }
             Ffmpeg.Check(ffmpeg.avcodec_open2(encoder, codec, null), "open image encoder", cancellationToken);
-            _frame->quality = encoder->global_quality;
-            Ffmpeg.Check(ffmpeg.avcodec_send_frame(encoder, _frame), "encode image", cancellationToken);
+            if (container != null)
+            {
+                var stream = ffmpeg.avformat_new_stream(container, null);
+                if (stream == null) throw new OutOfMemoryException();
+                stream->time_base = encoder->time_base;
+                Ffmpeg.Check(ffmpeg.avcodec_parameters_from_context(stream->codecpar, encoder), "configure AVIF stream");
+                Ffmpeg.Check(ffmpeg.avio_open(&container->pb, outputPath, ffmpeg.AVIO_FLAG_WRITE), "open AVIF output", cancellationToken);
+                Ffmpeg.Check(ffmpeg.avformat_write_header(container, null), "write AVIF header", cancellationToken);
+            }
+            frame->quality = encoder->global_quality;
+            Ffmpeg.Check(ffmpeg.avcodec_send_frame(encoder, frame), "encode image", cancellationToken);
             Ffmpeg.Check(ffmpeg.avcodec_send_frame(encoder, null), "flush image encoder", cancellationToken);
-            using var output = File.Create(outputPath);
+            using var output = container == null ? File.Create(outputPath) : null;
             while (true)
             {
                 var received = ffmpeg.avcodec_receive_packet(encoder, packet);
                 if (received == ffmpeg.AVERROR_EOF) break;
                 Ffmpeg.Check(received, "receive encoded image", cancellationToken);
-                output.Write(new ReadOnlySpan<byte>(packet->data, packet->size));
+                if (container == null) output!.Write(new ReadOnlySpan<byte>(packet->data, packet->size));
+                else
+                {
+                    ffmpeg.av_packet_rescale_ts(packet, encoder->time_base, container->streams[0]->time_base);
+                    packet->stream_index = 0;
+                    packet->duration = 1;
+                    Ffmpeg.Check(ffmpeg.av_interleaved_write_frame(container, packet), "write AVIF image", cancellationToken);
+                }
                 ffmpeg.av_packet_unref(packet);
             }
-            if (output.Length == 0) throw new InvalidDataException("FFmpeg produced an empty image.");
+            if (container != null)
+            {
+                Ffmpeg.Check(ffmpeg.av_write_trailer(container), "finish AVIF output", cancellationToken);
+                ffmpeg.avio_flush(container->pb);
+            }
+            if ((output?.Length ?? new FileInfo(outputPath).Length) == 0)
+                throw new InvalidDataException("FFmpeg produced an empty image.");
             cancellationToken.ThrowIfCancellationRequested();
         }
         finally
         {
             ffmpeg.av_packet_free(&packet);
             ffmpeg.avcodec_free_context(&encoder);
+            ffmpeg.av_frame_free(&quantized);
+            if (container != null)
+            {
+                if (container->pb != null) ffmpeg.avio_closep(&container->pb);
+                ffmpeg.avformat_free_context(container);
+            }
         }
     }
 
