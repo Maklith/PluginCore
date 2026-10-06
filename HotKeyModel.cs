@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using System.Linq;
+using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PluginCore;
@@ -16,6 +17,12 @@ public enum HotKeyProcessScope
     All,
     Include,
     Exclude
+}
+
+public enum MouseHotKeyTrigger
+{
+    Hold,
+    DragRelease
 }
 
 /// <summary>
@@ -34,6 +41,18 @@ public partial class HotKeyModel : ObservableObject
     [ObservableProperty] [JsonIgnore] 
     [NotifyPropertyChangedFor(nameof(ScopeSummary))]
     private ushort _pressTimeMillis = 1000;
+
+    [ObservableProperty] [JsonIgnore]
+    [NotifyPropertyChangedFor(nameof(ScopeSummary))]
+    private MouseHotKeyTrigger _mouseTrigger;
+
+    [ObservableProperty] [JsonIgnore]
+    [NotifyPropertyChangedFor(nameof(ScopeSummary))]
+    private ushort _dragDistancePixels = 4;
+
+    // Runtime coordinates captured by the hook, before the callback is dispatched.
+    [JsonIgnore]
+    public PixelPoint? TriggerPosition { get; set; }
 
     [ObservableProperty] [JsonIgnore]
     [NotifyPropertyChangedFor(nameof(ProcessScopeDescription))]
@@ -58,7 +77,9 @@ public partial class HotKeyModel : ObservableObject
 
     [JsonIgnore]
     public string ScopeSummary => Type == HotKeyType.Mouse
-        ? $"{ProcessScopeDescription} · 长按 {PressTimeMillis}ms"
+        ? MouseTrigger == MouseHotKeyTrigger.DragRelease
+            ? $"{ProcessScopeDescription} · 拖动 {DragDistancePixels}px 后释放"
+            : $"{ProcessScopeDescription} · 长按 {PressTimeMillis}ms"
         : ProcessScopeDescription;
 
     public bool CanExecuteInProcess(string? processName)
@@ -107,6 +128,8 @@ public partial class HotKeyModel : ObservableObject
         Type = source.Type;
         MouseButton = source.MouseButton;
         PressTimeMillis = source.PressTimeMillis;
+        MouseTrigger = source.MouseTrigger;
+        DragDistancePixels = source.DragDistancePixels;
         ProcessScope = source.ProcessScope;
         ProcessNames = source.ProcessNames;
         IgnoreTextInput = source.IgnoreTextInput;
