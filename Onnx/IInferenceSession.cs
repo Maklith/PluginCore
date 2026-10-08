@@ -61,6 +61,19 @@ public interface IInferenceSession : IDisposable
         cancellationToken.ThrowIfCancellationRequested();
         return result;
     }
+
+    /// <summary>
+    /// Runs a mixed-input model, such as a multimodal encoder with Int64 tokens and float features.
+    /// The default implementation preserves compatibility with existing runtime plugins.
+    /// </summary>
+    public Memory<float> Infer(
+        List<(string, Memory<int>, Memory<long>)> int64Inputs,
+        List<(string, Memory<int>, Memory<float>)> floatInputs,
+        string outputName,
+        CancellationToken cancellationToken)
+    {
+        throw new NotSupportedException($"The {Device} inference runtime does not support mixed Int64/float inputs.");
+    }
     
     
 
