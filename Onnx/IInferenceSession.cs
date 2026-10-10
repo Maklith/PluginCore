@@ -42,6 +42,16 @@ public interface IInferenceSession : IDisposable
         InitSession(modelPath, useCpuMemoryArena, intraOpNumThreads);
     }
 
+    /// <summary>
+    /// Binds symbolic input dimensions for runtimes that require static model shapes.
+    /// Older plugins retain their existing initialization behavior.
+    /// </summary>
+    public void InitSession(string modelPath, bool useCpuMemoryArena, int intraOpNumThreads,
+        long gpuMemoryLimitBytes, IReadOnlyDictionary<string, long>? freeDimensionOverrides)
+    {
+        InitSession(modelPath, useCpuMemoryArena, intraOpNumThreads, gpuMemoryLimitBytes);
+    }
+
     public void InitSession(byte[] modelData);
     
     public IReadOnlyList<string> InputNames { get; }
