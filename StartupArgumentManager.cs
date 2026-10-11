@@ -36,7 +36,9 @@ public enum StartupAction
 
     DownloadScenario,
 
-    ImageCompression
+    ImageCompression,
+
+    VideoCompression
 }
 
 public class StartupResult
