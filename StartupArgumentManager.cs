@@ -38,7 +38,9 @@ public enum StartupAction
 
     ImageCompression,
 
-    VideoCompression
+    VideoCompression,
+
+    BatchRename
 }
 
 public class StartupResult
