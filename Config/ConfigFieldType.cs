@@ -17,5 +17,6 @@ public enum ConfigFieldType
     文件列表,
     文件和目录列表,
     /// <summary>A color picker backed by a string field containing an RGB hex color.</summary>
-    颜色
+    颜色,
+    目录
 }
