@@ -21,6 +21,52 @@ public partial class SearchViewItem : ObservableObject
     public bool? IsVisible { set; get; }
 
     [ObservableProperty] private bool _isPined = false;
+    [ObservableProperty] private long? _fileSize;
+    [ObservableProperty] private DateTime? _dateModified;
+    [ObservableProperty] private bool _isFolder;
+
+    public string FormattedFileSize
+    {
+        get
+        {
+            if (IsFolder || FileSize == null) return string.Empty;
+            return FormatBytes(FileSize.Value);
+        }
+    }
+
+    public string FormattedDateModified
+    {
+        get
+        {
+            if (DateModified == null) return string.Empty;
+            return DateModified.Value.ToString("yyyy/M/d HH:mm");
+        }
+    }
+
+    partial void OnFileSizeChanged(long? value)
+    {
+        OnPropertyChanged(nameof(FormattedFileSize));
+    }
+
+    partial void OnDateModifiedChanged(DateTime? value)
+    {
+        OnPropertyChanged(nameof(FormattedDateModified));
+    }
+
+    partial void OnIsFolderChanged(bool value)
+    {
+        OnPropertyChanged(nameof(FormattedFileSize));
+    }
+
+    public static string FormatBytes(long bytes)
+    {
+        if (bytes < 0) return string.Empty;
+        if (bytes < 1024) return $"{bytes} B";
+        if (bytes < 1024L * 1024) return $"{(bytes / 1024.0):F1} KB";
+        if (bytes < 1024L * 1024 * 1024) return $"{(bytes / (1024.0 * 1024.0)):F1} MB";
+        if (bytes < 1024L * 1024 * 1024 * 1024) return $"{(bytes / (1024.0 * 1024.0 * 1024.0)):F2} GB";
+        return $"{(bytes / (1024.0 * 1024.0 * 1024.0 * 1024.0)):F2} TB";
+    }
 
     //给插件使用，固定项目和历史项目不适用
     public bool ShowAsMiniApp { set; get; } = false;
