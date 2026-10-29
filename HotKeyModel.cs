@@ -54,6 +54,9 @@ public partial class HotKeyModel : ObservableObject
     [JsonIgnore]
     public PixelPoint? TriggerPosition { get; set; }
 
+    [JsonIgnore]
+    public string? TriggerText { get; set; }
+
     [ObservableProperty] [JsonIgnore]
     [NotifyPropertyChangedFor(nameof(ProcessScopeDescription))]
     [NotifyPropertyChangedFor(nameof(ScopeSummary))]

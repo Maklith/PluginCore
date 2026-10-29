@@ -5,6 +5,8 @@ namespace PluginCore;
 /// </summary>
 public enum EKey
 {
+    [System.ComponentModel.Description("lang.kitopia.keys.any_character")]
+    任意键 = 0xFFFF,
     [System.ComponentModel.Description("lang.kitopia.keys.not_set")]
     未设置 = -1,
     [System.ComponentModel.Description("lang.kitopia.keys.backspace")]
