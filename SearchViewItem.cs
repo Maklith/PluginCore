@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Bitmap = Avalonia.Media.Imaging.Bitmap;
 
@@ -110,24 +111,24 @@ public partial class SearchViewItem : ObservableObject
 
 public enum FileType
 {
-    应用程序,
-    URL,
-    Word文档,
-    PPT文档,
-    Excel文档,
-    PDF文档,
-    图像,
-    剪贴板图像,
-    文件夹,
-    文件,
-    命令,
-    数学运算,
-    UWP应用,
-    自定义情景,
-    便签,
-    自定义,
-    窗口,
-    文本,
-    控制面板,
-    None
+    [Description("lang.kitopia.search.type.application")] 应用程序,
+    [Description("lang.kitopia.search.type.url")] URL,
+    [Description("lang.kitopia.search.type.word")] Word文档,
+    [Description("lang.kitopia.search.type.powerpoint")] PPT文档,
+    [Description("lang.kitopia.search.type.excel")] Excel文档,
+    [Description("lang.kitopia.search.type.pdf")] PDF文档,
+    [Description("lang.kitopia.search.type.image")] 图像,
+    [Description("lang.kitopia.search.type.clipboard_image")] 剪贴板图像,
+    [Description("lang.kitopia.search.type.folder")] 文件夹,
+    [Description("lang.kitopia.search.type.file")] 文件,
+    [Description("lang.kitopia.search.type.command")] 命令,
+    [Description("lang.kitopia.search.type.math")] 数学运算,
+    [Description("lang.kitopia.search.type.uwp")] UWP应用,
+    [Description("lang.kitopia.search.type.custom_scenario")] 自定义情景,
+    [Description("lang.kitopia.search.type.note")] 便签,
+    [Description("lang.kitopia.search.type.custom")] 自定义,
+    [Description("lang.kitopia.search.type.window")] 窗口,
+    [Description("lang.kitopia.text")] 文本,
+    [Description("lang.kitopia.search.type.control_panel")] 控制面板,
+    [Description("lang.kitopia.none")] None
 }
